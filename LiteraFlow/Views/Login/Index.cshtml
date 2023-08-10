@@ -1,0 +1,26 @@
+﻿@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Авторизация";
+}
+
+<div>
+    <form method="post">
+        <p>
+            <label>Почта</label>
+            <input name="Email" type="text" value="@Model.Email" />
+            <div class="error">@Html.ValidationMessageFor(m => m.Email)</div>
+        </p>
+        <p>
+            <label>Пароль</label>
+            <input name="Password" type="password" />
+            <div class="error">@Html.ValidationMessageFor(m => m.Password)</div>
+
+        </p>
+        @*<p>
+            <label>Запомнить вход?</label>
+            <input name="RememberMe" type="checkbox" />
+        </p>*@
+        <button>Войти</button>
+    </form>
+</div>

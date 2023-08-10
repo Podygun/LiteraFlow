@@ -1,0 +1,36 @@
+﻿@model ProfileViewModel
+
+@{
+    ViewData["Title"] = "Профиль";
+}
+
+<div>
+    <form method="post" action="/profile" enctype="multipart/form-data">
+        <p>
+            <label>Имя</label>
+            <input name="FullName" type="text" value="@Model.FullName" />
+            <div class="error">@Html.ValidationMessageFor(m => m.FullName)</div>
+        </p>
+        <p>
+            <label>О себе</label>
+            <input name="About" type="text" value="@Model.About" />
+            <div class="error">@Html.ValidationMessageFor(m => m.About)</div>
+        </p>
+        <p>
+            <label>Аватар</label>
+            <input name="ProfileImage" type="file" value="@Model.ProfileImage" />
+            <div class="error">@Html.ValidationMessageFor(m => m.ProfileImage)</div>
+        </p>
+        <p>
+            <label>Пол</label>
+            <input name="Gender" type="text" value="@Model.Gender" />
+            <div class="error">@Html.ValidationMessageFor(m => m.Gender)</div>
+        </p>
+        <p>
+            <label>Дата рождения</label>
+            <input name="DateBirth" type="date" value="@Model.DateBirth" />
+            <div class="error">@Html.ValidationMessageFor(m => m.DateBirth)</div>
+        </p>
+        <button>Сохранить</button>
+    </form>
+</div>
