@@ -2,8 +2,10 @@
 
 using LiteraFlow.Web.BL.Auth;
 using LiteraFlow.Web.BL.DBSession;
+using LiteraFlow.Web.BL.WebCookie;
 using LiteraFlow.Web.DAL.Auth;
 using LiteraFlow.Web.DAL.DBSession;
+using LiteraFlow.Web.DAL.UserToken;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +20,11 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IAuthDAL, AuthDAL>();
 builder.Services.AddScoped<IAuth, Auth>();
 builder.Services.AddSingleton<IDBSessionDAL, DBSessionDAL>();
+builder.Services.AddSingleton<IUserTokenDAL, UserTokenDAL>();
 builder.Services.AddScoped<IDBSession, DBSession>();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+builder.Services.AddScoped<IWebCookie, WebCookie>();
+
 
 
 //..

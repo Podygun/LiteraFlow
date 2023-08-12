@@ -2,7 +2,9 @@
 using LiteraFlow.Web.BL.Excepions;
 using LiteraFlow.Web.BL.Exceptions;
 using LiteraFlow.Web.BL.Helpers;
+using LiteraFlow.Web.BL.WebCookie;
 using LiteraFlow.Web.DAL.Auth;
+using LiteraFlow.Web.DAL.UserToken;
 
 namespace LiteraFlow.Web.BL.Auth;
 
@@ -10,11 +12,15 @@ public class Auth : IAuth
 {
     private readonly IAuthDAL authDAL;
     private readonly IDBSession dBSessionBL;
+    private readonly IUserTokenDAL userTokenDAL;
+    private readonly IWebCookie webCookie;
 
-    public Auth(IAuthDAL authDAL,IDBSession dBSessionBL)
+    public Auth(IAuthDAL authDAL,IDBSession dBSessionBL, IUserTokenDAL userTokenDAL, IWebCookie webCookie)
     {
         this.authDAL = authDAL;
         this.dBSessionBL = dBSessionBL;
+        this.userTokenDAL = userTokenDAL;
+        this.webCookie = webCookie;
     }
 
     public async Task<int> AuthenticateAsync(string email, string password, bool rememberMe)
@@ -23,6 +29,11 @@ public class Auth : IAuth
         if (user.UserId == 0) throw new AuthorizationException();
         if (user.Password == Encrypter.HashPassword(password, user.Salt))
         {
+            if (rememberMe)  
+            {
+                Guid tokenId = await userTokenDAL.CreateAsync(user.UserId);
+                webCookie.AddSecure(BLConstants.REMEMBER_ME_COOKIE_NAME, tokenId.ToString(), BLConstants.DEFAULT_LIFETIME_DAYS_COOKIE);
+            }
             await SaveIdUserToSession(user.UserId);
             return user.UserId;
         }

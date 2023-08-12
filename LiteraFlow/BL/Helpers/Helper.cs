@@ -16,4 +16,11 @@ public static class Helper
             return value;
         return def;
     }
+
+    public static Guid? StringToGuidOrDefault(string str)
+    {
+        if (Guid.TryParse(str, out Guid value))
+            return value;
+        return null;
+    }
 }

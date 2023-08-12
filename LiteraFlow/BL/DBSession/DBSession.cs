@@ -1,4 +1,5 @@
-﻿using LiteraFlow.Web.DAL.DBSession;
+﻿using LiteraFlow.Web.BL.WebCookie;
+using LiteraFlow.Web.DAL.DBSession;
 using LiteraFlow.Web.Models;
 
 namespace LiteraFlow.Web.BL.DBSession;
@@ -7,16 +8,16 @@ namespace LiteraFlow.Web.BL.DBSession;
 public class DBSession : IDBSession
 {
     private readonly IDBSessionDAL dBSessionDAL;
-    private readonly IHttpContextAccessor httpContextAccessor;
+    private readonly IWebCookie webCookie;
 
     private DBSessionModel? sessionModel = null;
 
     public DBSession(
-        IDBSessionDAL dBSessionDAL, 
-        IHttpContextAccessor httpContextAccessor)
+        IDBSessionDAL dBSessionDAL,
+        IWebCookie webCookie)
     {
         this.dBSessionDAL = dBSessionDAL;
-        this.httpContextAccessor = httpContextAccessor;
+        this.webCookie = webCookie;
     }
 
     public async Task<DBSessionModel> GetDBSession()
@@ -25,13 +26,12 @@ public class DBSession : IDBSession
 
 
         Guid sessionId = Guid.Empty;
-        var cookie = httpContextAccessor?.HttpContext?.Request?.Cookies.FirstOrDefault
-            (c => c.Key == BLConstants.SESSION_COOKIE_NAME) ?? null;
+        string? cookie = webCookie.Get(BLConstants.SESSION_COOKIE_NAME) ?? null;
 
         //Парс текущей куки (если авторизован)
-        if (cookie != null && cookie.Value.Value != null)
+        if (!String.IsNullOrEmpty(cookie))
         {
-            sessionId = Guid.Parse(cookie.Value.Value);
+            sessionId = Guid.Parse(cookie);
         }
             
         //Если её нет, создаем новую сессию
@@ -75,15 +75,7 @@ public class DBSession : IDBSession
 
     private void CreateCookie(Guid sessionId)
     {
-        CookieOptions options = new()
-        {
-            Path = "/",
-            HttpOnly = true,
-            Secure = true
-        };
-        httpContextAccessor?.HttpContext?.Response.Cookies.Delete(BLConstants.SESSION_COOKIE_NAME);
-        httpContextAccessor?.HttpContext?.Response.Cookies.Append(BLConstants.SESSION_COOKIE_NAME, sessionId.ToString(), options);
-        
+        webCookie.AddSecure(BLConstants.SESSION_COOKIE_NAME, sessionId.ToString());     
     }
 
     private async Task<DBSessionModel> CreateSession()
