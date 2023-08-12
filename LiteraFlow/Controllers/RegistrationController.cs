@@ -1,6 +1,7 @@
 ﻿
 using LiteraFlow.Web.BL.Auth;
 using LiteraFlow.Web.BL.Exceptions;
+using LiteraFlow.Web.Middleware;
 
 namespace LiteraFlow.Web.Controllers;
 

@@ -1,9 +1,10 @@
 ﻿using LiteraFlow.Web.BL.Auth;
 using LiteraFlow.Web.BL.Excepions;
+using LiteraFlow.Web.Middleware;
 
 namespace LiteraFlow.Web.Controllers;
 
-
+[SiteNotAuthorize()]
 public class LoginController : Controller
 {
     private readonly IAuth _authBL;
@@ -27,6 +28,7 @@ public class LoginController : Controller
 
     [HttpPost]
     [Route("/login")]
+    [AutoValidateAntiforgeryToken]
     public async Task<IActionResult> IndexPost(LoginViewModel model)
     {
         if (ModelState.IsValid)

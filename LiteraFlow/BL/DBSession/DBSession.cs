@@ -47,6 +47,7 @@ public class DBSession : IDBSession
         return data!;
     }
 
+    //Получение UserId из Сессии
     public async Task<int?> GetUserId()
     {
         var session = await GetDBSession();
@@ -59,6 +60,7 @@ public class DBSession : IDBSession
         return data?.UserId != null;
     }
 
+    //Создание авторизованой сессии
     public async Task<int> SetUserId(int userId)
     {
         var session = await GetDBSession();

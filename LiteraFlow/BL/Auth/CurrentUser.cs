@@ -24,22 +24,17 @@ namespace LiteraFlow.Web.BL
 
         public async Task<bool> IsLoggedIn()
         {
+            //получение id через токен
+            int? userId = await GetUserIdByToken();
 
-
-            bool isLoggedIn = await dBSession.IsLoggedIn();
-
-            //если текущая сессия не авторизована, пытаемся по токену
-            if (!isLoggedIn)
+            if (userId != null)
             {
-                int? userId = await GetUserIdByToken();
-                if (userId != null)
-                {
-                    await dBSession.SetUserId((int)userId!);
-                    isLoggedIn = true;
-                }
-
+                //TODO Not creating new, but updating LastEnrty time
+                await dBSession.SetUserId((int)userId!);
+                return true;
             }
-            return isLoggedIn;
+
+            return await dBSession.IsLoggedIn();
         }
 
 

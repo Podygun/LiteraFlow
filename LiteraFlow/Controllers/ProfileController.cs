@@ -1,8 +1,10 @@
 ﻿
+using LiteraFlow.Web.Middleware;
 using System.Security.Cryptography;
 
 namespace LiteraFlow.Web.Controllers;
 
+[SiteAuthorize()]
 public class ProfileController : Controller
 {
     [HttpGet]
@@ -14,6 +16,7 @@ public class ProfileController : Controller
 
     [HttpPost]
     [Route("/profile")]
+    [AutoValidateAntiforgeryToken]
     public async Task<IActionResult> IndexSave(ProfileViewModel model)
     {
         //TODO refactor code to another layer

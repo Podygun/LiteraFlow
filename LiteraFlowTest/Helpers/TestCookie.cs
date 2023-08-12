@@ -9,11 +9,14 @@ public class TestCookie : IWebCookie
 
     public void Add(string cookieName, string value, int days = 0)
     {
+        if (cookies.ContainsKey(cookieName)) Delete(cookieName);
+
         cookies.Add(cookieName, value);
     }
 
     public void AddSecure(string cookieName, string value, int days = 0)
     {
+        if (cookies.ContainsKey(cookieName)) Delete(cookieName); 
         cookies.Add(cookieName, value);
     }
 
