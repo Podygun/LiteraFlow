@@ -1,0 +1,63 @@
+<mxfile host="Electron" modified="2023-08-12T13:58:52.220Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="5l8R0tRCbV-1Gp57XhE-" version="21.6.8" type="device">
+  <diagram name="Страница — 1" id="gN2FD139f0a1CI0g0Oi1">
+    <mxGraphModel dx="1015" dy="998" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-1" value="Author" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="340" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="-Vbrh3lomrH5qtIPTkv8-4" target="-Vbrh3lomrH5qtIPTkv8-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-4" value="Create new book" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="80" y="300" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="-Vbrh3lomrH5qtIPTkv8-5" target="-Vbrh3lomrH5qtIPTkv8-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-5" value="Fill options" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="240" y="300" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-7" value="Load chapters" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="400" y="300" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-9" value="Fill fields =&amp;gt; save" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="560" y="250" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-10" value="Load chapters" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="560" y="320" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-11" value="UI Steps" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="80" y="40" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-12" value="Backend steps" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-13" value="Home page" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="80" y="355" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-16" value="" style="swimlane;startSize=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="400" width="200" height="200" as="geometry">
+            <mxRectangle x="290" y="450" width="50" height="40" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-17" value="Collection of all &lt;br&gt;popular, recently, most rate etc.&lt;br&gt;books on html blocks&lt;br&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="-Vbrh3lomrH5qtIPTkv8-16">
+          <mxGeometry x="5" y="14" width="190" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-18" value="List" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="400" width="140" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-19" value="popular, recently, most rate books in blocks" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="-Vbrh3lomrH5qtIPTkv8-18">
+          <mxGeometry y="30" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-20" value="Search over site: authors, books, cats, tags" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="-Vbrh3lomrH5qtIPTkv8-18">
+          <mxGeometry y="60" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-Vbrh3lomrH5qtIPTkv8-21" value="Item 3" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="-Vbrh3lomrH5qtIPTkv8-18">
+          <mxGeometry y="110" width="140" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

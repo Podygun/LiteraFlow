@@ -8,6 +8,9 @@ public interface IBooksDAL
     Task DeleteAsync(int id);
 
     Task<BookModel> GetAsync(int id);
+    Task<IList<BookModel>> GetUserBooks(int userId);
+
     Task<IEnumerable<BookModel>> SearchAsync(int genreId = 0, int bookType = 0);
     Task<IEnumerable<BookModel>> SearchAsync(string title);
+
 }

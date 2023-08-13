@@ -1,27 +1,46 @@
-﻿]using LiteraFlow.Web.BL.Books;
+﻿using LiteraFlow.Web.BL.Books;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace LiteraFlow.Web.Controllers;
 
 public class MyBookController : Controller
 {
-    private readonly IBooks books;
+    private readonly IBooks booksService;
+    private readonly ICurrentUser currentUser;
 
-    public MyBookController(IBooks books)
+    public MyBookController(IBooks books, ICurrentUser currentUser)
     {
-        this.books = books;
+        this.booksService = books;
+        this.currentUser = currentUser;
     }
 
     [HttpGet]
-    [Route("/mybook")]
-    public IActionResult Index()
+    [Route("/mybooks")]
+    public async Task<IActionResult> Index()
+    {
+        int? userId = await currentUser.GetUserIdByToken();
+        if (userId == null)
+            throw new Exception("Non authorize user");
+
+        var books = await booksService.GetUserBooks((int)userId);
+        return View(books);
+    }
+
+
+    #region Editing Book
+
+
+    [HttpGet]
+    [Route("/mybook/new")]
+    public IActionResult CreateBook()
     {
         return View();
     }
 
     [HttpPost]
-    [Route("/mybook")]
-    public IActionResult PostBook(BookViewModel book)
+    [Route("/mybook/new")]
+    public IActionResult CreateBook(BookViewModel book)
     {
         if (!ModelState.IsValid)
         {
@@ -30,10 +49,21 @@ public class MyBookController : Controller
         return View();
     }
 
+
+    #endregion
+
+    #region Editing Chapters
+
+
     [HttpPost]
     [Route("/mybook/chapter")]
     public IActionResult PostChapter(ChapterViewModel chapter)
     {
         return View();
-    }
+    } 
+
+
+    #endregion
+
+
 }

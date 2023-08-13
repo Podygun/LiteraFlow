@@ -61,13 +61,13 @@
         /// <param name="sql"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static async Task<IEnumerable<T>> QueryCollectionAsync<T>(string sql, object model)
+        public static async Task<IList<T>> QueryCollectionAsync<T>(string sql, object model)
         {
             using (var con = new NpgsqlConnection(ConString))
             {
                 await con.OpenAsync();
                 var result = await con.QueryAsync<T>(sql, model);
-                return result;
+                return result.ToList();
             }
         }
     }
