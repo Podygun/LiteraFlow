@@ -1,9 +1,10 @@
 ﻿using LiteraFlow.Web.BL.Books;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using LiteraFlow.Web.Middleware;
+
 
 namespace LiteraFlow.Web.Controllers;
 
+[SiteAuthorize]
 public class MyBookController : Controller
 {
     private readonly IBooks booksService;
