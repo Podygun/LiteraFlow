@@ -16,7 +16,7 @@ namespace LiteraFlow.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await currentUser.IsLoggedIn());
+            return View(await currentUser.IsAuthorized());
         }
 
         public IActionResult Privacy()
