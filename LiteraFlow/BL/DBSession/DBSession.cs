@@ -64,6 +64,8 @@ public class DBSession : IDBSession
     public async Task<int> SetUserId(int userId)
     {
         var session = await GetDBSession();
+        //TODO
+        if (session == null) return 0;
         await dBSessionDAL.DeleteAsync(session.DbSessionId);
         //await dBSessionDAL.DeleteAsync(userId);
         session.UserId = userId;
