@@ -80,4 +80,45 @@ public class AuthTest : BaseTest
         
         }
     }
+
+    //[Test]
+    //public async Task CurrentUserIsAuthorizedTest()
+    //{
+    //    using (TransactionScope scope = BaseScope.CreateTransactionScope())
+    //    {
+    //        string email = Guid.NewGuid().ToString() + "@test.com";
+    //        string pswd = "pswdfromtest";
+
+    //        //creating user
+    //        int userId = await auth.CreateUserAsync(
+    //            new UserModel
+    //            {
+    //                Email = email,
+    //                Password = pswd
+    //            });
+
+    //        // CHECKING HERE
+    //        bool isAuthorized = 
+
+    //        Assert.That(userId, Is.GreaterThan(0));
+
+    //        //searching user with id
+    //        var userDalResult = await authDAL.GetUserAsync(userId);
+    //        Assert.That(email, Is.EqualTo(userDalResult.Email));
+    //        Assert.That(userDalResult.Salt, Is.Not.Null);
+
+    //        //searching user with email
+    //        userDalResult = await authDAL.GetUserAsync(email);
+    //        Assert.That(email, Is.EqualTo(userDalResult.Email));
+
+    //        //validate: user should be in the db
+    //        Assert.ThrowsAsync<DuplicateEmailException>(async () => await auth.ValidateEmail(email));
+
+    //        //check: hashing of password
+    //        string hashedPswd = Encrypter.HashPassword(pswd, userDalResult.Salt);
+    //        Assert.That(hashedPswd, Is.EqualTo(userDalResult.Password));
+
+
+    //    }
+    //}
 }
