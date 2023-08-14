@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace LiteraFlow.Web.Middleware;
 
-
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-public class SiteNotAuthorizeAttribute : Attribute, IAsyncAuthorizationFilter
+public class SiteAuthenticateAttribute : Attribute, IAsyncAuthorizationFilter
 {
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
@@ -14,9 +14,9 @@ public class SiteNotAuthorizeAttribute : Attribute, IAsyncAuthorizationFilter
             throw new Exception("No user middleware");
         }
         bool isLoggedIn = await currentUser.IsLoggedIn();
-        if (isLoggedIn)
+        if (!isLoggedIn)
         {
-            context.Result = new RedirectResult("/");
+            context.Result = new RedirectResult("/Login");
             return;
         }
     }
