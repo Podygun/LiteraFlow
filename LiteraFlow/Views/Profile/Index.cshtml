@@ -6,6 +6,7 @@
 
 <div>
     <form method="post" action="/profile" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
         <p>
             <label>Имя</label>
             <input name="FullName" type="text" value="@Model.FullName" />
