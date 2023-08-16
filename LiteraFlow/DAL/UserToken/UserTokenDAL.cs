@@ -4,19 +4,20 @@
     {
         public async Task<Guid> CreateAsync(int userId) =>
             await DBHelper.ExecuteScalarAsync<Guid>(
-           @"insert into UserTokens 
-         (UserTokenId, UserId, CreatedAt)
-         values 
-         (@tokenid, @userid, NOW()) returning UserTokenId", new { tokenid = Guid.NewGuid(), userid = userId});
+              @"insert into UserTokens 
+                (UserTokenId, UserId, CreatedAt)
+                values 
+                (@tokenid, @userid, NOW()) returning UserTokenId", new { tokenid = Guid.NewGuid(), userid = userId});
 
         public async Task<int?> GetUserIdAsync(Guid sessionId) =>
-        await DBHelper.QueryScalarAsync<int?>(
-        @"select UserId 
-          from UserTokens 
-          where UserTokenId = @id", new { id = sessionId });
+            await DBHelper.QueryScalarAsync<int?>(
+            @"select UserId 
+              from UserTokens 
+              where UserTokenId = @id", new { id = sessionId });
 
-
-        
-
+        public async Task DeleteAsync(int userId)=>
+            await DBHelper.ExecuteAsync(
+              @"delete from UserTokens 
+                where userid = @userid", new { userid = userId });
     }
 }

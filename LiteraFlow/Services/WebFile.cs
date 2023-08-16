@@ -13,7 +13,7 @@ public class WebFile
         byte[] hashBytes = mD5.ComputeHash(inputBytes);
 
         string hash = Convert.ToHexString(hashBytes);
-        return "./wwwroot/images/" + hash.Substring(0, 3) + "/" + hash.Substring(0, 6);
+        return "~/images/" + hash.Substring(0, 3) + "/" + hash.Substring(0, 6);
     }
 
     public static void CreateFileFolder(string dir)
@@ -38,7 +38,7 @@ public class WebFile
             int aspectW = newWidth;
             int aspectH = newHeight;
 
-            if (image.Width / (image.Height / newHeight) > newWidth)
+            if (image.Width / (image.Height / (float)newHeight) > newWidth)
             {
                 aspectH = (int)(image.Height / (image.Width / (float)newWidth));
             }

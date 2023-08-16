@@ -1,10 +1,10 @@
-﻿
-using LiteraFlow.Web.BL.Auth;
+﻿using LiteraFlow.Web.BL.Auth;
 using LiteraFlow.Web.BL.Exceptions;
 using LiteraFlow.Web.Middleware;
 
 namespace LiteraFlow.Web.Controllers;
 
+[SiteNotAuthenticate()]
 public class RegistrationController : Controller
 {
     private readonly IAuth auth;
@@ -41,5 +41,6 @@ public class RegistrationController : Controller
 
     }
 
+    
 
 }

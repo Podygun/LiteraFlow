@@ -7,5 +7,6 @@ public interface IDBSession
     Task<int?> GetUserId();
     Task<bool> IsLoggedIn();
     Task LockAsync();
-
+    Task UpdateCurrentSession();
+    Task Delete(Guid dbSessionId);
 }

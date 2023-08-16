@@ -1,16 +1,17 @@
 ﻿using LiteraFlow.Web.ViewModels;
 
-namespace LiteraFlow.Web.Mappers
+namespace LiteraFlow.Web.Mappers;
+
+public class UserModelMapper
 {
-    public class UserModelMapper
+    public static UserModel UserViewModelToModel(RegistrationViewModel userViewModel)
     {
-        public static UserModel UserViewModelToModel(RegistrationViewModel userViewModel)
-        {
-            return new UserModel { 
-                Email = userViewModel.Email!,
-                Password = userViewModel.Password!,
-                Status = 0
-            };
-        }
+        return new UserModel { 
+            Email = userViewModel.Email!,
+            Password = userViewModel.Password!,
+            Status = 0
+        };
     }
+
+    
 }

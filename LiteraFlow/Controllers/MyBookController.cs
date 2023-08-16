@@ -4,7 +4,7 @@ using LiteraFlow.Web.Middleware;
 
 namespace LiteraFlow.Web.Controllers;
 
-[SiteAuthorize]
+[SiteAuthenticate]
 public class MyBookController : Controller
 {
     private readonly IBooks booksService;

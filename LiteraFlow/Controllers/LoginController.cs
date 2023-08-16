@@ -4,7 +4,7 @@ using LiteraFlow.Web.Middleware;
 
 namespace LiteraFlow.Web.Controllers;
 
-[SiteNotAuthorize()]
+[SiteNotAuthenticate()]
 public class LoginController : Controller
 {
     private readonly IAuth _authBL;

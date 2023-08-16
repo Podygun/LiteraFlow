@@ -3,10 +3,12 @@ using LiteraFlow.Web.BL.Helpers;
 using LiteraFlow.Web.BL.WebCookie;
 using LiteraFlow.Web.DAL.Profiles;
 using LiteraFlow.Web.DAL.UserToken;
+using LiteraFlow.Web.Middleware;
+
 
 namespace LiteraFlow.Web.BL;
 
-
+[SiteAuthenticate()]
 public class CurrentUser : ICurrentUser
 {
     private readonly IDBSession dBSession;
@@ -34,14 +36,15 @@ public class CurrentUser : ICurrentUser
         //получение id через токен
         int? userId = await GetUserIdByToken();
 
-        if (userId != null)
-        {
-            //TODO Not creating new, but updating LastEnrty time
-            await dBSession.SetUserId((int)userId!);
-            return true;
-        }
+        await dBSession.UpdateCurrentSession();
+        //если нет токена, смотрим сессию в БД
 
-        return await dBSession.IsLoggedIn();
+        if (userId == null)
+        {            
+            return await dBSession.IsLoggedIn();
+        }
+        await dBSession.SetUserId((int)userId!);
+        return true;
     }
 
     /// <summary>
@@ -54,31 +57,30 @@ public class CurrentUser : ICurrentUser
 
         if (userIdByToken == null && userIdBySession == null) return false;
 
-        if(userIdByToken != null && userIdBySession == null)
+        if (userIdByToken != null && userIdBySession == null)
         {
             var profile = await profileDAL.GetAsync((int)userIdByToken);
-            return profile.ProfileId != 0;
+            return profile.ProfileId != null;
         }
         else if (userIdByToken == null && userIdBySession != null)
         {
             var profile = await profileDAL.GetAsync((int)userIdBySession);
-            return profile.ProfileId != 0;
+            return profile.ProfileId != null;
         }
         else if ((userIdByToken != null || userIdBySession != null) && (userIdByToken == userIdBySession))
         {
             var profile = await profileDAL.GetAsync((int)userIdByToken);
-            return profile.ProfileId != 0;
+            return profile.ProfileId != null;
         }
 
         return false;
     }
 
-
     public async Task<int?> GetUserIdByToken()
     {
         string? token = webCookie.Get(BLConstants.REMEMBER_ME_COOKIE_NAME);
 
-        if (String.IsNullOrEmpty(token)) 
+        if (String.IsNullOrEmpty(token))
             return null;
 
         Guid? tokenGuid = Helper.StringToGuidOrDefault(token);
@@ -87,5 +89,18 @@ public class CurrentUser : ICurrentUser
             return null;
 
         return await userTokenDAL.GetUserIdAsync(tokenGuid ?? Guid.Empty);
+    }
+
+    public async Task<int?> GetCurrentUserId()
+    {
+        return await dBSession.GetUserId();
+    }
+
+    public async Task<ProfileModel> GetProfile()
+    {
+        int? userId = await GetCurrentUserId();
+        if (userId == null)
+            throw new Exception("Пользователь не найден");
+        return await profileDAL.GetAsync((int)userId);
     }
 }

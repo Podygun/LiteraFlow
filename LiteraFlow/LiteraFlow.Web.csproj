@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\images\4A4\**" />
+    <Compile Remove="wwwroot\images\5C9\**" />
+    <Content Remove="wwwroot\images\4A4\**" />
+    <Content Remove="wwwroot\images\5C9\**" />
+    <EmbeddedResource Remove="wwwroot\images\4A4\**" />
+    <EmbeddedResource Remove="wwwroot\images\5C9\**" />
+    <None Remove="wwwroot\images\4A4\**" />
+    <None Remove="wwwroot\images\5C9\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.143" />
     <PackageReference Include="Npgsql" Version="7.0.4" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />

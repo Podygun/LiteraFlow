@@ -1,9 +1,8 @@
-﻿namespace LiteraFlow.Web.DAL.Profiles
+﻿namespace LiteraFlow.Web.DAL.Profiles;
+
+public interface IProfileDAL
 {
-    public interface IProfileDAL
-    {
-        Task<int> CreateAsync(ProfileModel model);
-        Task<ProfileModel> GetAsync(int userId);
-        Task UpdateAsync(ProfileModel model);
-    }
+    Task<int> CreateAsync(ProfileModel model);
+    Task<ProfileModel> GetAsync(int userId);
+    Task<int> UpdateAsync(ProfileModel model);
 }

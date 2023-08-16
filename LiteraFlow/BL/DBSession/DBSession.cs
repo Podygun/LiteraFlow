@@ -24,21 +24,23 @@ public class DBSession : IDBSession
     {
         if (sessionModel != null) return sessionModel;
 
-
         Guid sessionId = Guid.Empty;
+
+        //получаем куку с браузера
         string? cookie = webCookie.Get(BLConstants.SESSION_COOKIE_NAME) ?? null;
 
-        //Парс текущей куки (если авторизован)
+        //Парс куки (если она есть)
         if (!String.IsNullOrEmpty(cookie))
         {
             sessionId = Guid.Parse(cookie);
         }
             
-        //Если её нет, создаем новую сессию
+        //Если её нет, создаем новую сессию и куку
         else
         {
             var newSession = await CreateSession();
             CreateCookie(newSession.DbSessionId);
+            sessionModel = newSession;
             return newSession;
         }
             
@@ -64,10 +66,18 @@ public class DBSession : IDBSession
     public async Task<int> SetUserId(int userId)
     {
         var session = await GetDBSession();
-        //TODO
-        if (session == null) return 0;
-        await dBSessionDAL.DeleteAsync(session.DbSessionId);
-        //await dBSessionDAL.DeleteAsync(userId);
+       
+        //если текущая анонимная сессия есть, удаляем ее из бд
+        if (session != null)
+        {
+            await dBSessionDAL.DeleteAsync(session.DbSessionId);
+            //session.LastEntry = DateTime.Now;
+        }
+        else
+        {
+            session = new();
+        }
+
         session.UserId = userId;
         session.DbSessionId = Guid.NewGuid();
         session.CreatedOn = DateTime.Now;
@@ -99,5 +109,20 @@ public class DBSession : IDBSession
     {
         var data = await GetDBSession();
         await dBSessionDAL.LockAsync(data.DbSessionId);
+    }
+
+    public async Task UpdateCurrentSession()
+    {
+        var session = await GetDBSession();
+        if (session == null) return;
+
+        session.LastEntry = DateTime.Now;
+        sessionModel = session;
+        await dBSessionDAL.UpdateAsync(session);
+    }
+
+    public async Task Delete(Guid dbSessionId)
+    {
+        await dBSessionDAL.DeleteAsync(dbSessionId);
     }
 }

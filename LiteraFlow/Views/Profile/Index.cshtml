@@ -7,6 +7,7 @@
 <div>
     <form method="post" action="/profile" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
+        <input name="ProfileId" type="hidden" value="@Model.ProfileId" />
         <p>
             <label>Имя</label>
             <input name="FullName" type="text" value="@Model.FullName" />
@@ -19,7 +20,8 @@
         </p>
         <p>
             <label>Аватар</label>
-            <input name="ProfileImage" type="file" value="@Model.ProfileImage" />
+            <img src ="@Url.Content(Model.ProfileImage)" alt="Ваше изображение" />
+            <input width="200" height="300" name="ProfileImage" type="file" value="@Model.ProfileImage" />
             <div class="error">@Html.ValidationMessageFor(m => m.ProfileImage)</div>
         </p>
         <p>
