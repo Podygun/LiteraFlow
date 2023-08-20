@@ -2,21 +2,21 @@
 @if (Model)
 {
     <li class="nav-item">
-        <a class="nav-link text-dark" href="/profile">Мой профиль</a>
+        <a class="nav-link" href="/profile">Мой профиль</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" href="/mybooks">Мои книги</a>
+        <a class="nav-link" href="/mybooks">Мои книги</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-action="exit" asp-controller="Profile">Выйти</a>
+        <a class="nav-link" asp-action="exit" asp-controller="Profile">Выйти</a>
     </li>
 }
 else
 {
     <li clas="nav-item">
-        <a class="nav-link text-dark" href="/registration">Регистрация</a>
+        <a class="nav-link" href="/registration">Регистрация</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" href="/login">Войти</a>
+        <a class="nav-link" href="/login">Войти</a>
     </li>
 }

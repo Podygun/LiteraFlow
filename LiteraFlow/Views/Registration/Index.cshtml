@@ -4,20 +4,27 @@
     ViewData["Title"] = "Регистрация";
 }
 
-<h1>@ViewData["Title"]</h1>
-<form method="post">
-    <div>
-        <label>Почта</label>
-        <input name="Email" type="text" value="@Model.Email" />
-        <div class="invalid_field_error">@Html.ValidationMessageFor(m => m.Email)</div>
-    </div>
-    <div>
-        <label>Пароль</label>
-        <input name="Password" type="text"/>
-        <div class="invalid_field_error">@Html.ValidationMessageFor(m => m.Password)</div>
+<div class="d-flex flex-wrap justify-content-center">
+    <form method="post" class="reg_form">
 
-    </div>
-    <div>
-        <button>Зарегистрироваться</button>
-    </div>
-</form>
+        <div class="mb-3">
+            <label class="form__label me-auto">Почта</label>
+            <input class="form__input" name="Email" type="text" value="@Model.Email" />
+            <div class="form__error_label">@Html.ValidationMessageFor(m => m.Email)</div>
+        </div>
+        <div class="mb-3">
+            <label class="form__label">Пароль</label>
+            <input class="form__input" name="Password" type="password" />
+            <div class="form__error_label">@Html.ValidationMessageFor(m => m.Password)</div>
+        </div>
+        <div class="mb-3">
+            <label class="form__label">Повтор пароля</label>
+            <input class="form__input" name="ConfirmPassword" type="password" />
+            <div class="form__error_label ">
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)</div>
+        </div>
+        <div class="d-flex justify-content-end">
+            <button class="btn_dark">Зарегистрироваться</button>
+        </div>
+    </form>
+</div>

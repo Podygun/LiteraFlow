@@ -19,9 +19,9 @@
             <div class="error">@Html.ValidationMessageFor(m => m.About)</div>
         </p>
         <p>
-            <label>Аватар</label>
-            <img src ="@Url.Content(Model.ProfileImage)" alt="Ваше изображение" />
-            <input width="200" height="300" name="ProfileImage" type="file" value="@Model.ProfileImage" />
+            <label>Аватар</label> 
+            <img style="width:100px;height:130px" class="img-thumbnail" src="@Url.Content(Model.ProfileImage)" alt="Ваше изображение" />
+            <input name="ProfileImage" type="file" value="@Model.ProfileImage" />
             <div class="error">@Html.ValidationMessageFor(m => m.ProfileImage)</div>
         </p>
         <p>
