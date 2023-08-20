@@ -1,11 +1,15 @@
-﻿using LiteraFlow.Web.BL.Auth;
+﻿#region Usings
+using LiteraFlow.Web.BL.Auth;
 using LiteraFlow.Web.BL.Books;
 using LiteraFlow.Web.BL.DBSession;
+using LiteraFlow.Web.BL.Profiles;
 using LiteraFlow.Web.BL.WebCookie;
 using LiteraFlow.Web.DAL.Auth;
 using LiteraFlow.Web.DAL.Books;
 using LiteraFlow.Web.DAL.DBSession;
-using LiteraFlow.Web.DAL.UserToken;
+using LiteraFlow.Web.DAL.Profiles;
+using LiteraFlow.Web.DAL.UserToken; 
+#endregion
 
 namespace LiteraFlowTest.Helpers;
 
@@ -18,6 +22,7 @@ public class BaseTest
     protected readonly IAuthDAL authDAL = new AuthDAL();
     protected readonly IChaptersDAL chaptersDAL = new ChaptersDAL();
     protected readonly IBooksDAL booksDAL = new BooksDAL();
+    protected readonly IProfileDAL profileDAL = new ProfileDAL();
 
     protected IHttpContextAccessor httpContextAccessor = new HttpContextAccessor();
 
@@ -26,6 +31,7 @@ public class BaseTest
     protected readonly IDBSession dBSession;   
     protected readonly IWebCookie webCookie;
     protected readonly IBooks books;
+    protected readonly IProfile profile;
 
 
     public BaseTest()
@@ -34,6 +40,7 @@ public class BaseTest
         dBSession = new DBSession(dBSessionDAL, webCookie);
         auth = new Auth(authDAL, dBSession, userTokenDAL, webCookie);
         books = new Books(booksDAL, chaptersDAL);
+        profile = new Profile(profileDAL);
     }
 
 }
