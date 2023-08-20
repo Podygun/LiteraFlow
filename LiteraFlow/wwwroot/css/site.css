@@ -1,5 +1,22 @@
+:root {
+    --main-color: #E6DCB9;
+    --second-color: #62897A;
+    --tertiary-color: #333841;
+    --danger-color: #F2162B;
+    --light-color: #EEEEEE;
+    --dark-color: #181818;
+    --main-color-darker: #CDC287;
+}
+
 html {
-  font-size: 14px;
+    
+    font-size: 14px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+
 }
 
 @media (min-width: 768px) {
@@ -8,9 +25,6 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
 
 html {
   position: relative;
@@ -18,5 +32,62 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Literata Book', sans-serif !important;
+    margin-bottom: 60px;
+}
+
+.main-color {
+    background-color: var(--main-color);
+}
+
+.form__input {
+    font-size: 1.1rem;
+    font-weight: 600;
+    height: 3rem;
+    padding: 0.375rem 0.75rem;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    background-color: transparent;
+    outline: 2px solid var(--dark-color);
+    transition: 0.3s;
+}
+
+.form__input:focus {
+    outline: 2px solid var(--second-color);
+}
+
+.form__label {
+    padding-left: 0.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding-bottom: 1px;
+}
+
+.reg_form{
+    width:375px;
+}
+
+.form__error_label {
+    margin-top: 0.5rem;
+    padding-left: 0.5rem;
+    color: var(--danger-color);
+}
+
+
+.btn_dark {
+    font-size: 1.1rem;
+    background-color: var(--dark-color);
+    color: var(--main-color);
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.6rem 2rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+
+.btn_dark:hover {
+    background-color: var(--second-color);
+    color: var(--dark-color);
 }
