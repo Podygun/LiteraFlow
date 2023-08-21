@@ -1,27 +1,30 @@
 ﻿@model LoginViewModel
 
-@{
-    ViewData["Title"] = "Авторизация";
-}
 
-<div>
-    <form method="post">
+<div class="d-flex flex-wrap justify-content-center">
+    <form method="post" class="auth_form">
         @Html.AntiForgeryToken()
-        <p>
-            <label>Почта</label>
-            <input name="Email" type="text" value="@Model.Email" />
-            <div class="error">@Html.ValidationMessageFor(m => m.Email)</div>
-        </p>
-        <p>
-            <label>Пароль</label>
-            <input name="Password" type="password" />
-            <div class="error">@Html.ValidationMessageFor(m => m.Password)</div>
 
-        </p>
-        <p>
-            <label>Запомнить вход?</label>
-            <input name="RememberMe" type="checkbox" value="true" />
-        </p>
-        <button>Войти</button>
+
+        <div class="mb-3">
+            <label class="form__label me-auto">Почта</label>
+            <input class="form__input" name="Email" type="text" value="@Model.Email" />
+            <div class="form__error_label">@Html.ValidationMessageFor(m => m.Email)</div>
+        </div>
+        <div class="mb-3">
+            <label class="form__label">Пароль</label>
+            <input class="form__input" name="Password" type="password" />
+            <div class="form__error_label">@Html.ValidationMessageFor(m => m.Password)</div>
+        </div>
+        <div class="mb-3">
+            
+            <input class="check_box_main" name="RememberMe" id="rememberme" type="checkbox" value="true" />
+            <label class="form__label" for="rememberme">Запомнить вход?</label>
+        </div>
+
+       
+        <div class="d-flex justify-content-end">
+            <button class="btn_dark">Войти</button>
+        </div>
     </form>
 </div>
