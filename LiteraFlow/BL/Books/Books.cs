@@ -13,9 +13,9 @@ public class Books : IBooks
         this.chaptersDAL = chaptersDAL;
     }
 
-    public async Task<int?> CreateAsync(BookModel book)
-    {
-        int? bookId = await booksDAL.CreateAsync(book);
+    public async Task<int?> CreateAsync(BookModel book, int profileId)
+    { 
+        int? bookId = await booksDAL.CreateAsync(book, profileId);
         return bookId;
     }
 

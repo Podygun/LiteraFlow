@@ -3,7 +3,7 @@
 public interface IBooks
 {
     Task AddChapterAsync(int bookId, ChapterModel chapter);
-    Task<int?> CreateAsync(BookModel book);
+    Task<int?> CreateAsync(BookModel book, int profileId);
     Task DeleteAsync(int bookId);
     Task DeleteChapterAsync(ChapterModel chapter);
     Task<IList<BookModel>> GetUserBooks(int userId);
