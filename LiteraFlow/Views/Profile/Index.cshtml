@@ -5,53 +5,97 @@
 }
 
 <div class="row">
-    <!--test string-->
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6 p-0">
         <form method="post" action="/profile">
             @Html.AntiForgeryToken()
             <input name="ProfileId" type="hidden" value="@Model.ProfileId" />
-            <div>
+            <input name="ProfileImage" type="hidden" value="@Model.ProfileImage" />
+
+            <div class="mb-3">
                 <label class="form__label">Имя</label>
                 <input class="form__input" name="FullName" type="text" value="@Model.FullName" />
                 <div class="error">@Html.ValidationMessageFor(m => m.FullName)</div>
             </div>
-            <div>
+            <div class="mb-3">
                 <label class="form__label">О себе</label>
                 <input class="form__input" name="About" type="text" value="@Model.About" />
                 <div class="error">@Html.ValidationMessageFor(m => m.About)</div>
             </div>
 
-            <div>
+            @* <div class="mb-3">
                 <label class="form__label">Пол</label>
                 <input class="form__input" name="Gender" type="text" value="@Model.Gender" />
                 <div class="error">@Html.ValidationMessageFor(m => m.Gender)</div>
+            </div> *@
+
+            <div class="mb-3">
+                <label class="form__label">Пол</label>
+                <select class="form__input" name="Gender" type="text" value="@Model.Gender" >
+
+                    @if(Model.Gender == null)
+                    {
+                        <option value="Empty" selected>Не указан</option>
+                        <option value="Мужской">Мужской</option>
+                        <option value="Женский">Женский</option>
+                    }
+                    else if (Model.Gender == "Мужской")
+                    {
+                        <option value="Empty">Не указан</option>
+                        <option value="Мужской" selected>Мужской</option>
+                        <option value="Женский">Женский</option>
+
+                    }
+                    else if (Model.Gender == "Женский")
+                    {
+                        <option value="Empty">Не указан</option>
+                        <option value="Женский" selected>Женский</option>
+                        <option value="Мужской">Мужской</option>
+
+                    }
+
+                    
+
+
+
+
+                    
+                    </select>
+                <div class="error">@Html.ValidationMessageFor(m => m.Gender)</div>
             </div>
-            <div>
+
+            <div class="mb-3">
                 <label class="form__label">Дата рождения</label>
                 <input class="form__input" name="DateBirth" type="date" value="@Model.DateBirth" />
                 <div class="error">@Html.ValidationMessageFor(m => m.DateBirth)</div>
             </div>
-            <button class="btn_light">Сохранить</button>
+            <button class="btn_dark">Сохранить</button>
         </form>
     </div>
     <div class="col-0 col-md-1">
 
     </div>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-5 p-0">
         <form method="post" action="/profile/saveimage" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
             <input type="hidden" name="ProfileId" value="@Model.ProfileId" />
             <div>
-                <label class="form__label">Изображение профиля</label>
-                @if (!String.IsNullOrEmpty(Model.ProfileImage))
-                {
-                    <img style="width:150px;height:200px" src="@Model.ProfileImage"/>
-                }
+                <label class="form__label p-0">Изображение профиля (3x4)</label>
+                <div class="w-100">
+                    @if (!String.IsNullOrEmpty(Model.ProfileImage))
+                    {
+                        <img style="width:150px;height:200px" src="@Model.ProfileImage" />
+                    }
+                </div>
+                
+                <label class="input-file">
+                    <input type="file" name="ProfileImage" value="@Model.ProfileImage" />
+                    <span class="form__label">Выберите файл</span>
+                </label>
 
-                <input type="file" name="ProfileImage" value="@Model.ProfileImage" />
+                
                 <div class="error">@Html.ValidationMessageFor(m => m.ProfileImage)</div>
             </div>
-            <button class="btn_light">Сохранить</button>
+            <button class="btn_dark">Сохранить</button>
         </form>
     </div>
     
