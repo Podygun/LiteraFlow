@@ -5,6 +5,8 @@ namespace LiteraFlow.Web.Services;
 
 public class WebFile
 {
+    public const string IMG_PREFIX = "./wwwroot";
+
     public static string CreateFilePath(string fileName)
     {
         MD5 mD5 = MD5.Create();
@@ -13,7 +15,7 @@ public class WebFile
         byte[] hashBytes = mD5.ComputeHash(inputBytes);
 
         string hash = Convert.ToHexString(hashBytes);
-        return "~/images/" + hash.Substring(0, 3) + "/" + hash.Substring(0, 6);
+        return "/images/" + hash.Substring(0, 3) + "/" + hash.Substring(0, 6);
     }
 
     public static void CreateFileFolder(string dir)
@@ -24,7 +26,7 @@ public class WebFile
     public static string CreateWebFile(string filename)
     {
         string dir = CreateFilePath(filename);
-        CreateFileFolder(dir);
+        CreateFileFolder(IMG_PREFIX + dir);
         return dir + "/" + Path.GetFileNameWithoutExtension(filename) + ".jpg";
     }
 
@@ -49,7 +51,7 @@ public class WebFile
             int height = image.Height / 2;
             image.Mutate(x => x.Resize(aspectW, aspectH, KnownResamplers.Lanczos3));
 
-            await image.SaveAsJpegAsync(filename, new JpegEncoder() { Quality = 75});
+            await image.SaveAsJpegAsync(IMG_PREFIX + filename, new JpegEncoder() { Quality = 75});
         }
     }
 }
