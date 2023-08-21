@@ -6,6 +6,8 @@
     --light-color: #EEEEEE;
     --dark-color: #181818;
     --main-color-darker: #CDC287;
+
+    --border-radius-def: 0.75rem;
 }
 
 html {
@@ -80,20 +82,25 @@ body {
     font-size: 1rem;
     background-color: var(--dark-color);
     color: var(--main-color);
-    border: none;
-    outline: 2px solid var(--dark-color);
+    border: solid 2px var(--dark-color);
+    outline: none;
     border-radius: 0.75rem;
     padding: 0.6rem 2rem;
     cursor: pointer;
     transition: 0.2s;
 }
 
+.btn_dark:focus{    
+     box-shadow: 0 0 0.2rem 0.1rem var(--second-color);
+}
+
+
 .btn_dark:hover {
     font-size: 1rem;
     background-color: var(--main-color);
     color: var(--dark-color);
-    border: none;
-    outline: 2px solid var(--dark-color);
+    border: solid 2px var(--dark-color);
+    outline: none;
     border-radius: 0.75rem;
     padding: 0.6rem 2rem;
     cursor: pointer;
@@ -104,9 +111,9 @@ body {
     transform: scale(0.99);
     font-size: 1.0rem;
     background-color: var(--tertiary-color);
-    color: var(--dark-color);
-    border: none;
-    outline: 2px solid var(--dark-color);
+    color: var(--main-color);
+    border: solid 2px var(--dark-color);
+    outline: none;
     border-radius: 0.75rem;
     padding: 0.6rem 2rem;
     cursor: pointer;
@@ -116,6 +123,35 @@ body {
 .btn_light {
     font-size: 1rem;
     background-color: var(--main-color);
+    color: var(--dark-color);
+    border: solid 2px var(--dark-color);
+    outline: none;
+    border-radius: 0.75rem;
+    padding: 0.6rem 2rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn_light:focus{    
+     box-shadow: 0 0 0.2rem 0.1rem var(--second-color);
+}
+
+.btn_light:hover {
+    font-size: 1rem;
+    background-color: var(--dark-color);
+    color: var(--main-color);
+    border: solid 2px var(--dark-color);
+    outline: none;
+    border-radius: 0.75rem;
+    padding: 0.6rem 2rem;
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+.btn_light:active {
+    transform: scale(0.99);
+    font-size: 1.0rem;
+    background-color: var(--tertiary-color);
     color: var(--dark-color);
     border: none;
     outline: 2px solid var(--dark-color);
@@ -178,3 +214,57 @@ body {
 
 /*#endregion */
 
+
+/*#region Input File */
+
+.input-file {
+	position: relative;
+	display: inline-block;
+}
+
+.input-file span {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	border: 2px solid var(--dark-color);
+    outline: none;
+	text-decoration: none;
+	vertical-align: middle;
+	color: var(--dark-color);
+	text-align: center;
+	border-radius: var(--border-radius-def);
+	background-color: var(--main-color);
+	padding: 0.6rem 2rem;
+	box-sizing: border-box;
+	margin: 0;
+	transition: 0.2s;
+}
+
+.input-file input[type=file] {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+	display: block;
+	width: 0;
+	height: 0;
+}
+ 
+.input-file input[type=file]:focus + span {
+    border: 2px solid var(--second-color);
+}
+
+.input-file:hover span {
+	background-color: var(--dark-color);
+	color: var(--main-color);
+	transform: scale(0.99);
+}
+
+.input-file:active span {
+	background-color: var(--tertiary-color);
+}
+ 
+.input-file input[type=file]:disabled + span {
+	background-color: #eee;
+}
+
+/*#endregion */
