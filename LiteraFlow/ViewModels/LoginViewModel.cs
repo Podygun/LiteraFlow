@@ -3,11 +3,11 @@ namespace LiteraFlow.Web.ViewModels;
 
 public class LoginViewModel
 {
-    [Required]
+    [Required(ErrorMessage = "Введите почту")]
     //[EmailAddress]
     public string? Email { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Введите пароль")]
     public string? Password { get; set; }
 
     public bool? RememberMe { get; set; }
