@@ -268,3 +268,12 @@ body {
 }
 
 /*#endregion */
+
+
+.type_book_card{
+    background-color: var(--second-color);
+    width: 100%;
+    border: 1px solid var(--dark-color);
+    border-radius: var(--border-radius-def);
+    height: 10rem;
+}
