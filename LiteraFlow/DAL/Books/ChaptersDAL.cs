@@ -38,8 +38,20 @@ public class ChaptersDAL : IChaptersDAL
               returning ChapterId",
             chapter);
         return result;
-
     }
+
+
+    public async Task<ChapterModel> GetAsync(int chapterId)
+    {
+        var result = await DBHelper.QueryScalarAsync<ChapterModel>(
+            @"select * Chapters where
+              title=@title, text=@text, updatedon=NOW() 
+              returning ChapterId",
+            chapterId);
+        return result;
+    }
+
+
 
 
 
