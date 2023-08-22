@@ -6,6 +6,7 @@ using LiteraFlow.Web.BL.Profiles;
 using LiteraFlow.Web.BL.WebCookie;
 using LiteraFlow.Web.DAL.Auth;
 using LiteraFlow.Web.DAL.Books;
+using LiteraFlow.Web.DAL.BooksRelaltions;
 using LiteraFlow.Web.DAL.DBSession;
 using LiteraFlow.Web.DAL.Profiles;
 using LiteraFlow.Web.DAL.UserToken; 
@@ -23,6 +24,7 @@ public class BaseTest
     protected readonly IChaptersDAL chaptersDAL = new ChaptersDAL();
     protected readonly IBooksDAL booksDAL = new BooksDAL();
     protected readonly IProfileDAL profileDAL = new ProfileDAL();
+    protected readonly IBooksRelationDAL relationDAL = new BooksRelationDAL();
 
     protected IHttpContextAccessor httpContextAccessor = new HttpContextAccessor();
 

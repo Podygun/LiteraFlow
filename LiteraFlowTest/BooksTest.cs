@@ -86,11 +86,18 @@ public class BooksTest : BaseTest
         //обновление главы
         chapter = new()
         {
+            ChapterId = (int)chapterId,
+            Title = "Test title 2",
             Text = "Not Lorem",
         };
-        chapterId = await chaptersDAL.UpdateAsync(chapter);
 
-        var chapter = await chaptersDAL.GetAsync(bookId);
+        var chapterId_2 = await chaptersDAL.UpdateAsync(chapter);
+        Assert.That(chapterId_2, Is.EqualTo(chapterId));
 
+        chapter = await chaptersDAL.GetAsync(chapterId_2);
+
+        
+        Assert.That(chapter.Title, Is.EqualTo("Test title 2"));
+        Assert.That(chapter.Text, Is.EqualTo("Not Lorem"));
     }
 }
