@@ -1,22 +1,29 @@
-﻿using System.Reflection;
+﻿namespace LiteraFlow.Web.DAL.Books;
 
-namespace LiteraFlow.Web.DAL.Books;
 
 public class BooksDAL : IBooksDAL
 {
-    public async Task<int?> CreateAsync(BookModel model)
+    public async Task<int?> CreateAsync(BookModel model, int profileId)
     {
-        var result = await DBHelper.ExecuteScalarAsync<int?>(
-            @"insert into Users (Email,Password,Salt,Status) 
-              values (@email,@password,@salt,@status) returning UserId", model);
-        return result;
+        int? bookId = await DBHelper.AddBookWithTransactionAsync(
+            @"insert into Books 
+            (title, typeid, genreid, authornote, description, isadultcontent, createdon, whocanwatch, whocandownload, whocancomment, amountunlockedchapters, bookimage, price, statusid)
+            values 
+            (@title, @typeid, @genreid, @authornote, @description, @isadultcontent, NOW(), @whocanwatch, @whocandownload, @whocancomment, @amountunlockedchapters, @bookimage, @price, @statusid) returning bookid",
+            model, @"insert into BooksAuthors(bookid, profileid) values (@bookid, @profileid)", profileId);
+
+        return bookId;
+
+        
     }
 
-    public async Task<IList<BookModel>> GetUserBooks(int userId)
+    public async Task<IList<BookModel>> GetUserBooks(int profileId)
     {
         return await DBHelper.QueryCollectionAsync<BookModel>(
-            @"select * from Books where userid = @userid", 
-            new {userid = userId}) ?? new List<BookModel>();
+            @"select * from Books as b
+              join booksauthors as ba on b.bookid = ba.bookid
+              where ba.profileid = @profileId", 
+            new { profileId = profileId }) ?? new List<BookModel>();
     }
 
     public Task DeleteAsync(int id)
