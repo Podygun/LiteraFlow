@@ -1,4 +1,5 @@
-﻿using LiteraFlow.Web.Middleware;
+﻿using LiteraFlow.Web.DAL.BooksRelaltions;
+using LiteraFlow.Web.Middleware;
 
 namespace LiteraFlow.Web.Controllers
 {
@@ -7,11 +8,18 @@ namespace LiteraFlow.Web.Controllers
     [SiteAuthenticate]
     public class NewBookController : Controller
     {
+        private readonly IBooksRelationDAL relationDAL;
+
+        public NewBookController(IBooksRelationDAL relationDAL)
+        {
+            this.relationDAL = relationDAL;
+        }
         [HttpGet]
         [Route("/newbook/basic")]
-        public IActionResult Basic(BookViewModel book)
+        public async Task<IActionResult> Basic()
         {
-            return (View("Index", book));
+            var types =await relationDAL.GetBookTypes();
+            return (View("Index", types));
         }
 
         [HttpPost]
