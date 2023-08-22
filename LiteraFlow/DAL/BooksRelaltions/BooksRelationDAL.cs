@@ -1,6 +1,6 @@
 ﻿namespace LiteraFlow.Web.DAL.BooksRelaltions;
 
-public class BooksRelationDAL
+public class BooksRelationDAL : IBooksRelationDAL
 {
     public async Task<List<BookTypeModel>> GetBookTypes() =>
         await DBHelper.QueryCollectionAsync<BookTypeModel>("select * from BookTypes");
