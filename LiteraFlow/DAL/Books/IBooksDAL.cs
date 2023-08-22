@@ -3,7 +3,7 @@
 
 public interface IBooksDAL
 {
-    Task<int?> CreateAsync(BookModel model);
+    Task<int?> CreateAsync(BookModel model, int profileId);
     Task<int?> UpdateAsync(BookModel model);
     Task DeleteAsync(int id);
 
