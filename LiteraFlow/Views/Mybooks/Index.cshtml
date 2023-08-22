@@ -1,9 +1,13 @@
 ﻿@model List<BookViewModel>
-@{
-    ViewData["Title"] = "Мои книги";
-}
+
 
 <div class="container">
+    <div>
+        <a href="/newbook/basic">
+            <button class="btn_dark" >+</button>
+        </a>
+        
+    </div>
     <div class="books">
         @foreach (var book in Model)
         {

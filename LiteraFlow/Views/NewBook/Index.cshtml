@@ -1,0 +1,32 @@
+﻿@model BookViewModel
+
+
+<div>
+    <form method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="md-3">
+            <select>
+                <option value="Роман">Женский</option>
+                <option value="История">Женский</option>
+                <option value="Короткометражка">Женский</option>
+                <option value="Женский">Женский</option>
+            </select>
+        </div>
+
+        <div class="md-3">
+            456
+        </div>
+
+        <div class="md-3">
+            789
+        </div>
+
+        <div class="md-3">
+            101
+        </div>
+
+        <button class="btn_dark" asp-action="Settings">Далее</button>
+
+    </form>
+</div>
