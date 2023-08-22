@@ -3,15 +3,15 @@
 
 public class BookModel
 {
-    public int BookId { get; set; }
+    public int? BookId { get; set; }
     public string? Title { get; set; } = null!;
     public int TypeId { get; set; }
     public int GenreId { get; set; }
     public int StatusId { get; set; }
-    public string? Note { get; set; }
+    public string? AuthorNote { get; set; }
     public string? Description { get; set; }
     public bool IsAdultContent { get; set; }
-    public DateTime CreatedOn { get; set; }
+    public DateTime? CreatedOn { get; set; }
     public int WhoCanWatch { get; set; }
     public int WhoCanDownload { get; set; }
     public int WhoCanComment { get; set; }
