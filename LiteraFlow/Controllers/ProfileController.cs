@@ -44,6 +44,10 @@ public class ProfileController : Controller
             return View("Index", model);
         }
 
+        if (model.Gender == "Empty")
+            model.Gender = null;
+
+
         // Проверка на совпадение id профиля
         var profile = await currentUser.GetProfile();
         if (profile.ProfileId != model.ProfileId)
