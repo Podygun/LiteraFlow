@@ -6,6 +6,7 @@ using LiteraFlow.Web.BL.Profiles;
 using LiteraFlow.Web.BL.WebCookie;
 using LiteraFlow.Web.DAL.Auth;
 using LiteraFlow.Web.DAL.Books;
+using LiteraFlow.Web.DAL.BooksRelaltions;
 using LiteraFlow.Web.DAL.DBSession;
 using LiteraFlow.Web.DAL.Profiles;
 using LiteraFlow.Web.DAL.UserToken; 
@@ -32,6 +33,7 @@ builder.Services.AddSingleton<IBooks, Books>();
 builder.Services.AddSingleton<IUserTokenDAL, UserTokenDAL>();
 builder.Services.AddSingleton<IProfileDAL, ProfileDAL>();
 builder.Services.AddSingleton<IProfile, Profile>();
+builder.Services.AddSingleton<IBooksRelationDAL, BooksRelationDAL>();
 
 
 builder.Services.AddScoped<IAuth, Auth>();
