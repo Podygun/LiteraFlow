@@ -5,7 +5,7 @@
         public Task<int?> AddAsync(int bookId, ChapterModel chapter);
 
         public Task AddRangeAsync(int bookId, IEnumerable<ChapterModel> chapters);
-
+        Task<ChapterModel> GetAsync(int chapterId);
         public Task<int> UpdateAsync(ChapterModel chapter);
     }
 }

@@ -34,7 +34,7 @@ public class ChaptersDAL : IChaptersDAL
     {
         var result = await DBHelper.ExecuteScalarAsync<int>(
             @"update Chapters set 
-              title=@title, text=@text, updatedon=NOW() 
+              title=@title, text=@text, updatedon=NOW() where chapterid = @ChapterId
               returning ChapterId",
             chapter);
         return result;
@@ -44,9 +44,7 @@ public class ChaptersDAL : IChaptersDAL
     public async Task<ChapterModel> GetAsync(int chapterId)
     {
         var result = await DBHelper.QueryScalarAsync<ChapterModel>(
-            @"select * Chapters where
-              title=@title, text=@text, updatedon=NOW() 
-              returning ChapterId",
+            @"select * from Chapters where chapterid = @ChapterId",
             chapterId);
         return result;
     }
