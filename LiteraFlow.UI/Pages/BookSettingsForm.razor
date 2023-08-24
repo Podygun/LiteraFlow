@@ -1,0 +1,136 @@
+﻿@page "/newbook/settings"
+@using System.ComponentModel.DataAnnotations;
+
+
+
+<EditForm Model="Book" OnValidSubmit="Submit">
+    <div class="md-3">
+        <div class="form__label">Название книги</div>
+        <input class="form__input" value="@Book?.Title" name="Title" type="text">
+        <ValidationMessage class="form__error_label" For="@(() => Book.Title)" />
+
+    </div>
+
+    <div class="md-3">
+        <div class="form__label">Заметка от автора</div>
+        <input class="form__input" value="@Book?.AuthorNote" name="AuthorNote" type="text">
+    </div>
+
+    <div class="md-3">
+        <div class="form__label">Описание книги</div>
+        <input class="form__input" value="@Book?.Description" name="Description" type="text">
+    </div>
+
+    <div class="md-3">
+        <input class="check_box_main" name="IsAdultContent" id="adultcontent" type="checkbox" value="false" />
+        <label class="form__label" for="adultcontent">18+</label>
+    </div>
+
+    <div class="md-3">
+        <input class="check_box_main" name="PaidAccess" id="paidaccess" type="checkbox" value="false" />
+        <label class="form__label" for="paidaccess">Платный доступ</label>
+    </div>
+
+    <div class="md-3">
+        <div class="form__label">Количество разблокированных глав</div>
+        <input class="form__input" value="@Book?.AmountUnlockedChapters" name="AmountUnlockedChapters" type="text">
+    </div>
+
+    <div class="md-3">
+        <div class="form__label">Цена</div>
+        <input class="form__input" value="@Book?.Price" name="Price" type="text">
+    </div>
+
+    <div class="md-3">
+        <label>Платный доступ</label>
+        <input type="checkbox" name="PaymentFlag" value="@flag" @onclick="TurnCheckBox" />
+    </div>
+
+    <div class="md-3">
+        <label disabled="(@flag)">Количество глав в открытом доступе</label>
+        <input disabled="@(!flag)" type="number" name="AmountUnlockedChapters" @bind="@amount" />
+    </div>
+
+    <button type="submit">Готово</button>
+</EditForm>
+
+
+
+@code {
+    [Parameter]
+    public BookViewModel? Book { get; set; }
+
+    bool flag = false;
+    int amount = 0;
+    int amount_old = 0;
+
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+
+    private void TurnCheckBox()
+    {
+        if (flag)
+        {
+            flag = false;
+            amount_old = amount;
+            amount = 0;
+        }
+
+        else
+        {
+            flag = true;
+            amount = amount_old;
+        }
+
+
+
+
+    }
+
+    public void Submit()
+    {
+        
+    }
+
+
+    public class BookViewModel
+    {
+        [Key]
+        public int? BookId { get; set; }
+
+        [Required]
+        [MinLength(3)]
+        [MaxLength(100)]
+        public string? Title { get; set; } = null!;
+
+        [Required]
+        public int TypeId { get; set; }
+
+        [Required]
+        public int GenreId { get; set; }
+
+        [Required]
+        public int StatusId { get; set; } = 1;
+
+        [MaxLength(500)]
+        public string? AuthorNote { get; set; }
+
+        [MaxLength(500)]
+        public string? Description { get; set; }
+
+
+        public bool IsAdultContent { get; set; } = false;
+
+
+        public int WhoCanWatch { get; set; } = 1;
+        public int WhoCanDownload { get; set; } = 1;
+        public int WhoCanComment { get; set; } = 1;
+
+        public int AmountUnlockedChapters { get; set; } = 0;
+        public string? BookImage { get; set; } = null;
+        public double Price { get; set; } = 0.0d;
+    }
+
+}
