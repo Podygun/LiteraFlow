@@ -22,15 +22,13 @@ namespace LiteraFlow.Web.Controllers
             return (View("Index", types));
         }
 
-        [HttpPost]
-        [Route("/newbook/settings")]
-        [AutoValidateAntiforgeryToken]
-        public IActionResult Settings(BookViewModel book)
+        [HttpGet]
+        [Route("/newbook/settings/{typeId}")]
+        public IActionResult Settings([FromRoute]int typeId)
         {
-            var foo = book;
-            return View("Privacy");
+            var book = new BookModel() { TypeId = typeId };
+            return View("Settings", BookMapper.ModelToViewModel(book));
         }
-
 
 
         [HttpPost]
@@ -39,7 +37,7 @@ namespace LiteraFlow.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Redirect("/mybooks");
+                return Redirect($"/newbook/settings/{book.TypeId}");
             }
             return Redirect("/mybooks");
         }
