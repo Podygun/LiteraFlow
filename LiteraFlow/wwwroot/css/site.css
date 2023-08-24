@@ -91,7 +91,7 @@ body {
 }
 
 .btn_dark:focus{    
-     box-shadow: 0 0 0.2rem 0.1rem var(--second-color);
+     box-shadow: 0 0 0.1rem 0.1rem var(--dark-color);
 }
 
 
@@ -133,7 +133,7 @@ body {
 }
 
 .btn_light:focus{    
-     box-shadow: 0 0 0.2rem 0.1rem var(--second-color);
+     box-shadow: 0 0 0.1rem 0.1rem var(--dark-color);
 }
 
 .btn_light:hover {
@@ -276,4 +276,13 @@ body {
     border: 1px solid var(--dark-color);
     border-radius: var(--border-radius-def);
     height: 10rem;
+    transition: 0.2s;
 }
+
+
+
+ .type_book_card:hover {
+    background-color: var(--main-color);
+    box-shadow: var(--dark-color) 2px 2px 10px;
+    transform: scale(1.01);
+  }
