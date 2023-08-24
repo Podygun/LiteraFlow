@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решен
 		Notes.txt = Notes.txt
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteraFlow.UI", "..\LiteraFlow.UI\LiteraFlow.UI.csproj", "{F05456CD-A7E7-45A5-9FFF-5C101C4ED6FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{E999D40F-F4C5-4815-B027-65A7754540C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E999D40F-F4C5-4815-B027-65A7754540C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E999D40F-F4C5-4815-B027-65A7754540C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F05456CD-A7E7-45A5-9FFF-5C101C4ED6FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F05456CD-A7E7-45A5-9FFF-5C101C4ED6FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F05456CD-A7E7-45A5-9FFF-5C101C4ED6FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F05456CD-A7E7-45A5-9FFF-5C101C4ED6FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
