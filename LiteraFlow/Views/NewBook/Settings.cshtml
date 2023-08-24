@@ -1,0 +1,93 @@
+﻿@model BookViewModel
+
+
+<div class=" d-flex flex-wrap justify-content-center">
+    <form method="post" class="booksettings_form">
+        @Html.AntiForgeryToken()
+
+        <div class="md-3">
+            <div class="form__label">Название книги</div>
+            <input class="form__input" value="@Model.Title" name="Title" type="text">
+            <div class="form__error_label">@Html.ValidationMessageFor(m => m.Title)</div>
+        </div>
+
+        <div class="md-3">
+            <div class="form__label">Заметка от автора</div>
+            <input class="form__input" value="@Model.AuthorNote" name="AuthorNote" type="text">
+            <div class="form__error_label">@Html.ValidationMessageFor(m => m.AuthorNote)</div>
+        </div>
+
+        <div class="md-3">
+            <div class="form__label">Описание книги</div>
+            <input class="form__input" value="@Model.Description" name="Description" type="text">
+            <div class="form__error_label">@Html.ValidationMessageFor(m => m.Description)</div>
+        </div>
+
+        <div class="md-3">
+            <input class="check_box_main" name="IsAdultContent" id="adultcontent" type="checkbox" value="false" />
+            <label class="form__label" for="adultcontent">18+</label>
+        </div>
+
+        <div class="md-3">
+            <input class="check_box_main" type="checkbox" id="paidAccess" value="false" />
+            <label class="form__label" for="paidAccess">Платный доступ</label>
+        </div>
+
+        <div class="md-3" id="acBlock">
+            <label class="form__label" for="amountChaptersInput">Количество разблокированных глав</label>
+            <input class="form__input" id="amountChaptersInput" value="@Model.AmountUnlockedChapters" name="AmountUnlockedChapters" type="text">
+        </div>
+
+        <div class="md-3">
+            <div id="priceBlock">
+                <label class="form__label">Цена</label>
+                <input class="form__input" value="@Model.Price" id="priceInput" name="Price" type="text">
+                <div class="form__error_label">@Html.ValidationMessageFor(m => m.Price)</div>
+            </div>
+        </div>
+
+        <button class="btn_light" type="submit">Готово</button>
+            
+    </form>
+</div>
+
+<script>
+    const paidAccessCheckBox = document.getElementById('paidAccess');
+
+    const priceBlock = document.getElementById('priceBlock');
+    const acBlock = document.getElementById('acBlock');
+
+    const amountChaptersInput = document.getElementById('amountChaptersInput');
+    const priceInput = document.getElementById('priceInput');
+
+    paidAccessCheckBox.addEventListener('change', function () {
+        if (this.checked) {
+            // turn on fields
+            acBlock.classList.remove('d-none');
+            priceBlock.classList.remove('d-none');
+
+            amountChaptersInput.removeAttribute('disabled');
+            priceInput.removeAttribute('disabled');
+
+            
+
+        } else {
+            // turn off fields
+            amountChaptersInput.setAttribute('disabled', 'enabled');
+            amountChaptersInput.value = '0';
+            acBlock.classList.add('d-none');
+
+            priceInput.setAttribute('disabled', 'enabled');
+            priceInput.value = '0.00';
+            priceBlock.classList.add('d-none');
+        }
+    });
+</script>
+
+        
+
+   
+
+
+
+

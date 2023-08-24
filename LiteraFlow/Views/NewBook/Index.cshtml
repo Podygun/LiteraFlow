@@ -1,44 +1,32 @@
 ﻿@model List<BookTypeModel>
 
 
-<div>
+
+
+<div class="m-0 p-0">
     <form method="post">
         @Html.AntiForgeryToken()
-
-        @* <div class="md-3">
-            <select>
-                <option value="Роман">Женский</option>
-                <option value="История">Женский</option>
-                <option value="Короткометражка">Женский</option>
-                <option value="Женский">Женский</option>
-            </select>
-        </div> *@
-
-        <div class="row">
+        <div class="row m-0 p-0">
             @foreach (var typeBook in Model)
             {
+                
                 <div class="col mb-3">
-                    <div class="d-flex flex-wrap align-items-center py-1">
-                        <div class="type_book_card d-flex flex-wrap align-items-center px-5 m-">
-                            <div class="form__label w-100 text-center border-bottom ">
-                                @typeBook.Title
-                            </div>
-                            <div class="form__label w-100 text-center mb-auto">
-                                @typeBook.Description
+                    <a class="p-0 m-0" href="/newbook/settings/@typeBook.BookTypeId">
+                        <div class="flex-wrap align-items-center type_book_card pt-4">
+                            <div class="d-flex flex-wrap align-items-center px-2 px-lg-4 m-0">
+                                <div class="form__label w-100 text-center border-bottom pb-4 ">
+                                    @typeBook.Title
+                                </div>
+                                <div class="form__label w-100 text-center mb-auto">
+                                    @typeBook.Description
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
+                    
                 </div>
-                
             }
         </div>
-        
-        
-
-        
-
-
-        <button class="btn_dark" asp-action="Settings">Далее</button>
-
     </form>
+
 </div>
