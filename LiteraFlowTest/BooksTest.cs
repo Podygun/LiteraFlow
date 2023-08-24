@@ -28,6 +28,8 @@ public class BooksTest : BaseTest
 
 
         Assert.That(bookId, Is.GreaterThan(0));
+
+        await booksDAL.DeleteAsync((int)bookId);
     }
 
 
@@ -54,6 +56,8 @@ public class BooksTest : BaseTest
         int? chapterId = await chaptersDAL.AddAsync((int)bookId, chapter);
 
         Assert.That(chapterId, Is.Not.Null);
+
+        await booksDAL.DeleteAsync((int)bookId);
     }
 
 
@@ -99,5 +103,7 @@ public class BooksTest : BaseTest
         
         Assert.That(chapter.Title, Is.EqualTo("Test title 2"));
         Assert.That(chapter.Text, Is.EqualTo("Not Lorem"));
+
+        await booksDAL.DeleteAsync((int)bookId);
     }
 }
