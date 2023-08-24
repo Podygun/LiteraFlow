@@ -72,6 +72,10 @@ body {
     color: var(--danger-color);
 }
 
+.booksettings_form{
+    width:400px;
+}
+
 /*#endregion */
 
 
