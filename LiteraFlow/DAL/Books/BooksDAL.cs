@@ -11,10 +11,8 @@ public class BooksDAL : IBooksDAL
             values 
             (@title, @typeid, @genreid, @authornote, @description, @isadultcontent, NOW(), @whocanwatch, @whocandownload, @whocancomment, @amountunlockedchapters, @bookimage, @price, @statusid) returning bookid",
             model, @"insert into BooksAuthors(bookid, profileid) values (@bookid, @profileid)", profileId);
-
         return bookId;
-
-        
+   
     }
 
     public async Task<IList<BookModel>> GetUserBooks(int profileId)
@@ -26,10 +24,11 @@ public class BooksDAL : IBooksDAL
             new { profileId = profileId }) ?? new List<BookModel>();
     }
 
-    public Task DeleteAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task DeleteAsync(int id)=>
+        await DBHelper.ExecuteAsync(
+            "delete from books where bookid = @bookid",
+            new { bookid = id});
+    
 
     public Task<BookModel> GetAsync(int id)
     {
