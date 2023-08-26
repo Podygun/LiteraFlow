@@ -1,26 +1,86 @@
-﻿@model BookViewModel
+﻿@model BookSettingsViewModel
 
 
 <div class=" d-flex flex-wrap justify-content-center">
-    <form method="post" class="booksettings_form">
+    <form method="post" class="booksettings_form" action="/newbook/save">
         @Html.AntiForgeryToken()
 
         <div class="md-3">
             <div class="form__label">Название книги</div>
-            <input class="form__input" value="@Model.Title" name="Title" type="text">
-            <div class="form__error_label">@Html.ValidationMessageFor(m => m.Title)</div>
-        </div>
-
-        <div class="md-3">
-            <div class="form__label">Заметка от автора</div>
-            <input class="form__input" value="@Model.AuthorNote" name="AuthorNote" type="text">
-            <div class="form__error_label">@Html.ValidationMessageFor(m => m.AuthorNote)</div>
+            <input class="form__input" value="@Model.Book.Title" name="Book.Title" type="text">
+            <div class="form__error_label">@Html.ValidationMessageFor(m => m.Book.Title)</div>
         </div>
 
         <div class="md-3">
             <div class="form__label">Описание книги</div>
-            <input class="form__input" value="@Model.Description" name="Description" type="text">
-            <div class="form__error_label">@Html.ValidationMessageFor(m => m.Description)</div>
+            <input class="form__input" value="@Model.Book.Description" name="Book.Description" type="text">
+            <div class="form__error_label">@Html.ValidationMessageFor(m => m.Book.Description)</div>
+        </div>
+
+        <div class="md-3">
+            <div class="form__label">Заметка от автора</div>
+            <input class="form__input" value="@Model.Book.AuthorNote" name="Book.AuthorNote" type="text">
+            <div class="form__error_label">@Html.ValidationMessageFor(m => m.Book.AuthorNote)</div>
+        </div>
+
+        <div class="md-3">
+            <div class="form__label">Жанр</div>
+            <select class="form__input" type="text" id="Genres" value="@Model.Genres">
+                @foreach (var g in Model.Genres)
+                {
+                    <option value="@g.BookGenreId">@g.Title</option>
+                }
+            </select>
+        </div>
+        
+        <div class="md-3">
+            <div class="form__label">Тэги</div>
+            <select class="form__input" type="text" id="Tags" value="@Model.Tags">
+                @foreach (var t in Model.Tags)
+                {
+                    <option value="@t.TagId">@t.Title</option>
+                }
+            </select>
+        </div>
+
+        <div class="md-3">
+            <div class="form__label">Статус</div>
+            <select class="form__input" type="text" id="Statuses" value="@Model.Statuses">
+                @foreach (var s in Model.Statuses)
+                {
+                    <option value="@s.BookStatusId">@s.Title</option>
+                }
+            </select>
+        </div>
+
+        <div class="md-3">
+            <div class="form__label">Кто может читать книгу</div>
+            <select class="form__input" type="text" id="WhoCanWatchSelect" value="@Model.Permissions">
+                @foreach (var p in Model.Permissions)
+                {
+                    <option value="@p.PermissionTypeId">@p.Title</option>
+                }
+            </select>
+        </div>
+
+        <div class="md-3">
+            <div class="form__label">Кто может скачивать</div>
+            <select class="form__input" type="text" id="WhoCanDownloadSelect" value="@Model.Permissions">
+                @foreach (var p in Model.Permissions)
+                {
+                    <option value="@p.PermissionTypeId">@p.Title</option>
+                }
+            </select>
+        </div>
+
+        <div class="md-3">
+            <div class="form__label">Кто может комментировать</div>
+            <select class="form__input" type="text" id="WhoCanCommentSelect" value="@Model.Permissions">
+                @foreach (var p in Model.Permissions)
+                {
+                    <option value="@p.PermissionTypeId">@p.Title</option>
+                }
+            </select>
         </div>
 
         <div class="md-3">
@@ -35,16 +95,25 @@
 
         <div class="md-3" id="acBlock">
             <label class="form__label" for="amountChaptersInput">Количество разблокированных глав</label>
-            <input class="form__input" id="amountChaptersInput" value="@Model.AmountUnlockedChapters" name="AmountUnlockedChapters" type="text">
+            <input class="form__input" id="amountChaptersInput" value="@Model.Book.AmountUnlockedChapters" name="Book.AmountUnlockedChapters" type="text">
         </div>
 
         <div class="md-3">
             <div id="priceBlock">
                 <label class="form__label">Цена</label>
-                <input class="form__input" value="@Model.Price" id="priceInput" name="Price" type="text">
-                <div class="form__error_label">@Html.ValidationMessageFor(m => m.Price)</div>
+                <input class="form__input" value="@Model.Book.Price" id="priceInput" name="Book.Price" type="text">
+                <div class="form__error_label">@Html.ValidationMessageFor(m => m.Book.Price)</div>
             </div>
         </div>
+
+        <input type="hidden" name="Book.TypeId" value="@Model.Book.TypeId" />
+
+        <input type="hidden" id="hiddenTagId" name="Book.TagId" value="" />
+        <input type="hidden" id="hiddenGenreId" name="Book.GenreId" value="@Model.Book.GenreId" />
+        <input type="hidden" id="hiddenStatusId" name="Book.StatusId" value="@Model.Book.StatusId" />
+        <input type="hidden" id="hiddenWCW" name="Book.WhoCanWatch" value="@Model.Book.WhoCanWatch" />
+        <input type="hidden" id="hiddenWCD" name="Book.WhoCanDownload" value="@Model.Book.WhoCanDownload" />
+        <input type="hidden" id="hiddenWCC" name="Book.WhoCanComment" value="@Model.Book.WhoCanComment" />
 
         <button class="btn_light" type="submit">Готово</button>
             
@@ -84,10 +153,54 @@
     });
 </script>
 
-        
+<script>
+    let genreSelect = document.getElementById('Genres');
+    let statusSelect = document.getElementById('Statuses');
+    let tagSelect = document.getElementById('Tags');
 
-   
+    genreSelect.selectedIndex = 0;
+    statusSelect.selectedIndex = 0;
+    tagSelect.selectedIndex = 0;
 
+    let wcwSelect = document.getElementById('WhoCanWatchSelect');
+    let wccSelect = document.getElementById('WhoCanCommentSelect');
+    let wcdSelect = document.getElementById('WhoCanDownloadSelect');
 
+    
+    
+    let hiddenTagId = document.getElementById('hiddenTagId');
+    let hiddenGenreId = document.getElementById('hiddenGenreId');
+    let hiddenStatusId = document.getElementById('hiddenStatusId');
 
+    let hiddenWCW = document.getElementById('hiddenWCW');
+    let hiddenWCD = document.getElementById('hiddenWCD');
+    let hiddenWCC = document.getElementById('hiddenWCC');
 
+    wcwSelect.options[0].selected= true;
+    wccSelect.selectedIndex = 0;
+    wcdSelect.selectedIndex = 0;
+
+    genreSelect.addEventListener('change', function () {
+        hiddenGenreId.value = genreSelect.value;
+    });
+
+    statusSelect.addEventListener('change', function () {
+        hiddenStatusId.value = statusSelect.value;
+    });
+
+    tagSelect.addEventListener('change', function () {
+        hiddenTagId.value = tagSelect.value;
+    });
+
+    wcwSelect.addEventListener('change', function () {
+        hiddenWCW.value = wcwSelect.value;
+    });
+
+    wcdSelect.addEventListener('change', function () {
+        hiddenWCD.value = wcdSelect.value;
+    });
+
+    wccSelect.addEventListener('change', function () {
+        hiddenWCC.value = wccSelect.value;
+    });
+</script>
