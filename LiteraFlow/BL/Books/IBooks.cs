@@ -7,5 +7,6 @@ public interface IBooks
     Task DeleteAsync(int bookId);
     Task DeleteChapterAsync(ChapterModel chapter);
     Task<IList<BookModel>> GetUserBooks(int userId);
+    Task<BookModel> Get(int userId);
     Task UpdateChapterAsync(ChapterModel chapter);
 }

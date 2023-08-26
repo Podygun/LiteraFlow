@@ -39,9 +39,16 @@ public class Books : IBooks
         await booksDAL.DeleteAsync(bookId);
     }
 
-    public async Task<IList<BookModel>> GetUserBooks(int userId)
+    public async Task<IList<BookModel>> GetUserBooks(int profileId)
     {
-        return await booksDAL.GetUserBooks(userId);
+        return await booksDAL.GetUserBooks(profileId);
     }
+
+    public async Task<BookModel> Get(int userId)
+    {
+        return await booksDAL.GetAsync(userId);
+    }
+
+
 }
 
