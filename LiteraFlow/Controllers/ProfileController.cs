@@ -53,12 +53,13 @@ public class ProfileController : Controller
         if (profile.ProfileId != model.ProfileId)
             throw new Exception("Ошибка обновления данных");
 
+        if(profile.UserId == 0)
+        {
+            int? userId = await currentUser.GetCurrentUserId();
+            model.UserId = userId;
+        }
         
-        
-
-        model.UserId = profile.UserId;
         await this.profile.CreateOrUpdateAsync(ProfileMapper.ProfileViewModelToModel(model));
-        
 
         return Redirect("/");
     }
