@@ -17,5 +17,5 @@ public class BookModel
     public int WhoCanComment { get; set; }
     public int AmountUnlockedChapters { get; set; }
     public string? BookImage { get; set; }
-    public double Price { get; set; } = 0.0d;
+    public double? Price { get; set; }
 }
