@@ -1,5 +1,7 @@
-﻿using LiteraFlow.Web.DAL.BooksRelaltions;
+﻿using LiteraFlow.Web.BL.Books;
+using LiteraFlow.Web.DAL.BooksRelaltions;
 using LiteraFlow.Web.Middleware;
+using System;
 
 namespace LiteraFlow.Web.Controllers
 {
@@ -9,10 +11,12 @@ namespace LiteraFlow.Web.Controllers
     public class NewBookController : Controller
     {
         private readonly IBooksRelationDAL relationDAL;
+        private readonly IBooks booksBL;
 
-        public NewBookController(IBooksRelationDAL relationDAL)
+        public NewBookController(IBooksRelationDAL relationDAL, IBooks booksBL)
         {
             this.relationDAL = relationDAL;
+            this.booksBL = booksBL;
         }
         [HttpGet]
         [Route("/newbook/basic")]
@@ -24,37 +28,50 @@ namespace LiteraFlow.Web.Controllers
 
         [HttpGet]
         [Route("/newbook/settings/{typeId}")]
-        public IActionResult Settings([FromRoute]int typeId)
+        public async Task<IActionResult> Settings([FromRoute] int typeId)
         {
-            var book = new BookModel() { TypeId = typeId };
-            return View("Settings", BookMapper.ModelToViewModel(book));
+            var viewModel = new BookSettingsViewModel() { 
+                Book = new () { TypeId = typeId },
+                Genres = await relationDAL.GetBookGenres(),
+                Permissions = await relationDAL.GetPermissions(),
+                Tags = await relationDAL.GetBookTags(),
+                Statuses = await relationDAL.GetBookStatuses(),
+        };
+
+            return View("Settings", viewModel);
         }
 
 
         [HttpPost]
         [Route("/newbook/save")]
-        public IActionResult CreateBook(BookViewModel book)
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> CreateBook(BookSettingsViewModel viewModel, [FromServices] ICurrentUser user)
         {
+            //TODO Выбор тэгов
+            //TODO Возможность выбрать несколько авторов
+
             if (!ModelState.IsValid)
             {
-                return Redirect($"/newbook/settings/{book.TypeId}");
+                var vm = new BookSettingsViewModel()
+                {
+                    Book = new() { TypeId = viewModel.Book.TypeId },
+                    Genres = await relationDAL.GetBookGenres(),
+                    Permissions = await relationDAL.GetPermissions(),
+                    Tags = await relationDAL.GetBookTags(),
+                    Statuses = await relationDAL.GetBookStatuses(),
+                };
+                return View("Settings", vm);
             }
-            return Redirect("/mybooks");
-        }
 
-        [HttpGet]
-        [Route("/newbook/notfoo")]
-        public IActionResult foo()
-        {
-            return View("Privacy");
-        }
+            var profile = await user.GetProfile();
+            if (profile?.ProfileId == null)
+                throw new Exception("Нет профиля");
 
-        //[HttpPost]
-        //[Route("/mybook/chapter")]
-        //public IActionResult PostChapter(ChapterViewModel chapter)
-        //{
-        //    return View();
-        //}
+            BookModel book = BookMapper.ViewModelToModel(viewModel.Book);
+            int? bookId = await booksBL.CreateAsync(book, (int)profile.ProfileId);
+
+            return Redirect($"/mybooks/{bookId}");
+        }
 
     }
 }

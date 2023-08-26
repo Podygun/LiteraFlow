@@ -1,4 +1,6 @@
-﻿namespace LiteraFlow.Web.DAL.Books;
+﻿using LiteraFlow.Web.BL.Profiles;
+
+namespace LiteraFlow.Web.DAL.Books;
 
 
 public class BooksDAL : IBooksDAL
@@ -30,9 +32,12 @@ public class BooksDAL : IBooksDAL
             new { bookid = id});
     
 
-    public Task<BookModel> GetAsync(int id)
+    public async Task<BookModel> GetAsync(int id)
     {
-        throw new NotImplementedException();
+        return await DBHelper.QueryScalarAsync<BookModel>(
+            @"select * from Books
+              where BookId = @id",
+            new { id = id }) ?? new BookModel();
     }
 
     public Task<IEnumerable<BookModel>> SearchAsync(int genreId = 0, int bookType = 0)
