@@ -11,8 +11,11 @@
     <div class="books">
         @foreach (var book in Model)
         {
-            <div>@book.Title</div>
-            <div>@book.Description</div>
+            <a href="mybooks/@book.BookId">
+                <div>@book.Title</div>
+                <div>@book.Description</div>
+            </a>
+            
         }
     </div>
 </div>
