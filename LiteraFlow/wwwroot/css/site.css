@@ -283,10 +283,20 @@ body {
     transition: 0.2s;
 }
 
-
-
  .type_book_card:hover {
     background-color: var(--main-color);
     box-shadow: var(--dark-color) 2px 2px 10px;
     transform: scale(1.01);
   }
+
+ .book__card{
+     width: 200px;
+     padding: 5px;
+ }
+
+
+
+ .book__card_image{
+     margin:0px;
+     padding:0px;
+ }
