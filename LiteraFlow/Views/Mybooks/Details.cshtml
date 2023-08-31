@@ -1,0 +1,148 @@
+﻿@model BookAndChaptersViewModel
+
+
+  <div class="row">
+    <div class="col-0 col-md-4 d-flex flex-wrap justify-content-center">
+        <form method="post" action="savesettings">
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <label class="form__label">Название</label>
+                <input class="form__input" name="Title" value="@Model.Book.Title" type="text" />
+            </div>
+            <div class="mb-3">
+                <label class="form__label"> Описание</label>
+                 <input class="form__input" style="height:10rem;" name="Description" value="@Model.Book.Description" type="text" />
+                <p class="form__p" name="Description" value="@Model.Book.Description" type="text" contenteditable="true">@Model.Book.Description</p>
+            </div>
+            <div class="mb-3">
+                <label class="form__label">Заметка</label>
+                <input class="form__input" name="AuthorNote" value="@Model.Book.AuthorNote" type="text" />
+            </div>
+            <div class="mb-3">
+                <label class="form__label">Цена</label>
+                <input class="form__input" name="Price" value="@Model.Book.Price" type="text" />
+            </div>
+            <input type="hidden" name="BookId" id="bookId" value="@Model.Book.BookId" />
+            <button type="submit">Сохранить</button>
+        </form>
+
+
+    </div>
+
+    @* TODO Amount of letters *@
+
+    @* <div class="col d-flex flex-wrap justify-content-center" style="height:50px;">
+        <div class="row d-flex flex-wrap justify-content-between">
+            <select id="chapterSelector">
+                @for (int i = 0; i < @Model.Chapters.Count; i++)
+                {
+                    <option value="@Model.Chapters[i].ChapterId">@Model.Chapters[i].SerialNumber. @Model.Chapters[i].Title</option>
+                }
+            </select>
+            <button>Новая глава</button>
+            <div>
+                <label>Заголовок</label>
+                <input id="chapterTitle" value="@Model.Chapters[0].Title"/>
+            </div>
+        </div>
+        
+        <div class="row w-100 bg-secondary " style="height:200px;">
+            <p contenteditable="true" id="chapterText"></p>
+        </div>
+        <button onclick="saveChapter()">Сохранить</button>
+    </div> *@
+
+    <div>
+        <select id="chapterSelector">
+            @for (int i = 0; i < @Model.Chapters.Count; i++)
+            {
+                <option value="@Model.Chapters[i].ChapterId">@Model.Chapters[i].Title</option>
+            }
+            
+        </select>
+        <button>Новая глава</button>
+
+        <form id="ChapterForm">
+            @Html.AntiForgeryToken()
+            <div>
+                <label>
+                    <div>Заголовок</div>
+                    <input id="chapterTitle" value="@Model.Chapters[0].Title" />
+                    
+                </label>
+                
+            </div>
+            <div class="row w-100 bg-secondary " style="height:200px;">
+                <p contenteditable="true" id="chapterText"></p>
+            </div>
+            <input type="hidden" name="ChapterId" id="chapterId" value="@Model.Book.BookId" />
+
+            <button type="button" id="saveChapterBtn">Сохранить</button>
+        </form>
+    </div>
+    
+    
+
+</div>  
+
+@section Scripts{
+    <script defer>     
+        $(document).ready(function () {
+
+
+            const chapterSelector = document.getElementById("chapterSelector");
+            const chapterText = document.getElementById("chapterText");
+            const chapterTitle = document.getElementById("chapterTitle");
+
+
+            chapterSelector.options[0].Selected = 'selected';
+
+            function chapterSelected() {
+
+                let SelectedChapterId = chapterSelector.options[chapterSelector.selectedIndex].value;
+                chapterTitle.value = chapterSelector.options[chapterSelector.selectedIndex].title;
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetChapterText")",
+                    dataType: "json",
+                    data: { chapterId: SelectedChapterId },
+                    success: function (result) {
+                        chapterText.textContent = result.text;
+                    },
+                    error: function (req, status, error) {
+                        chapterText.textContent = status;
+                    }
+                });
+            }
+
+            $("#saveChapterBtn").click(function () {
+                let chapter = {
+                    BookId: $("#bookId").val(),
+                    Title: $("#chapterTitle").val(),
+                    Text: $("#chapterText").text()
+                };
+
+                $.ajax({
+                    url: '@Url.Action("SaveChapter", "MyBooks")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(chapter),
+                    success: function (result) {
+                        //TODO popup
+                        console.Log('Updated chapter with id: ' + result);
+                    },
+                    error: function (req, status, error) {
+                        //TODO popup
+                        chapterText.textContent = status;
+                    }
+                });
+            });
+
+            chapterSelector.addEventListener("change", chapterSelected);
+
+
+        });
+    </script>
+}
+
