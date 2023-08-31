@@ -1,6 +1,4 @@
-﻿using LiteraFlow.Web.BL.Profiles;
-
-namespace LiteraFlow.Web.DAL.Books;
+﻿namespace LiteraFlow.Web.DAL.Books;
 
 
 public class BooksDAL : IBooksDAL
@@ -54,4 +52,5 @@ public class BooksDAL : IBooksDAL
     {
         throw new NotImplementedException();
     }
+
 }
