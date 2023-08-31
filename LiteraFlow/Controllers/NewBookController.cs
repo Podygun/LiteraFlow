@@ -70,7 +70,7 @@ namespace LiteraFlow.Web.Controllers
             BookModel book = BookMapper.ViewModelToModel(viewModel.Book);
             int? bookId = await booksBL.CreateAsync(book, (int)profile.ProfileId);
 
-            return Redirect($"/mybooks/{bookId}");
+            return Redirect($"/mybooks/book/{bookId}");
         }
 
     }
