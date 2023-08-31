@@ -19,10 +19,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddServerSideBlazor();
 
 builder.Services.AddHttpContextAccessor();
 //builder.Services.AddSession();
-
 
 // Custom Services
 
@@ -44,25 +44,28 @@ builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 builder.Services.AddScoped<IWebCookie, WebCookie>();
 
 
-
-//..
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsProduction())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-    app.UseWebAssemblyDebugging();   
 }
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();    
+    
+}
+app.UseWebAssemblyDebugging();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles(new StaticFileOptions
 {
     ServeUnknownFileTypes = true
 });
+app.UseDefaultFiles();
+
 //app.UseDirectoryBrowser();
 app.UseRequestLocalization();
 
@@ -74,6 +77,8 @@ app.UseBlazorFrameworkFiles();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
+app.MapBlazorHub();
 
 app.Run();
