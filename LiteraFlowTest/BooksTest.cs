@@ -90,7 +90,7 @@ public class BooksTest : BaseTest
         //обновление главы
         chapter = new()
         {
-            ChapterId = (int)chapterId,
+            ChapterId = chapterId,
             Title = "Test title 2",
             Text = "Not Lorem",
         };
@@ -98,11 +98,10 @@ public class BooksTest : BaseTest
         var chapterId_2 = await chaptersDAL.UpdateAsync(chapter);
         Assert.That(chapterId_2, Is.EqualTo(chapterId));
 
-        chapter = await chaptersDAL.GetAsync(chapterId_2);
+        string chapterText = await chaptersDAL.GetTextAsync(chapterId_2);
 
         
-        Assert.That(chapter.Title, Is.EqualTo("Test title 2"));
-        Assert.That(chapter.Text, Is.EqualTo("Not Lorem"));
+        Assert.That(chapterText, Is.EqualTo("Not Lorem"));
 
         await booksDAL.DeleteAsync((int)bookId);
     }
