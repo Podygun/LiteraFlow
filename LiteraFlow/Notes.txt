@@ -1,12 +1,10 @@
 Пример подключения blazor компонента
 
-<p>Blazor component:</p>
 
-        <div class="row">
-            <div class="col-12 w-100">
-                <component type="typeof(LiteraFlow.UI.Pages.ModelSettingsForm)" render-mode="WebAssembly" >
-                    <param name="Model" value="Model" />
-                </component>
-            </div>
-        </div>
-        <script src="~/js/blazor.webassembly.js"></script>
+
+<div class="row">
+    <component type="typeof(LiteraFlow.UI.Pages.ChaptersView)" render-mode="WebAssembly">
+        <param name="Model" value="Model" />
+    </component>
+    <script src="~/_framework/blazor.webassembly.js"></script>
+</div>
