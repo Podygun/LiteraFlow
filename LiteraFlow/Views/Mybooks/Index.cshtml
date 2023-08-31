@@ -2,31 +2,39 @@
 
 
 <div class="container">
-    <div>
-        @* <a href="/newbook/basic">
-             <button class="btn_dark" >+</button>
-         </a> *@
-        
-    </div>
+    
+    
+
+
     <div class="books_block d-flex flex-wrap justify-content-center">
          @foreach (var book in Model)
         {
-            <div class="book__card bg-secondary w-100 row p-0 m-0 mb-2 d-flex">
-
-                <div class="p-0 m-0 w-auto">
-                    <img class="book__card_image" src="/images/mock/default_book_pic.jpg" alt="">
-                </div>
-
-                <div class="col p-0 m-0">
-                    <label class="book__card_title w-100">@book.Title</label>
-                    <label>@book.Description</label>
-                </div>
-                    
-                    
+            <a class="p-0 m-0 w-100" asp-action="Details" asp-route-id="@book.BookId">
+                <div class="book__card w-100  bg-secondary row p-0 m-0 mb-2 d-flex">
                 
-            </div>         
+                    <div class="p-0 m-0 w-auto">
+                        <img class="book__card_image" src="/images/mock/default_book_pic.jpg" alt="">
+                    </div>
+
+                    <div class="col p-0 m-0">
+                        <label class="book__card_title w-100">@book.Title</label>
+                        <label>@book.Description</label>
+                    </div>
+
+                </div>
+            </a>
+                  
         } 
         
 
     </div>
+
+    <div>
+        <a href="/newbook/basic">
+            <button class="btn_dark">+</button>
+        </a>
+
+    </div>
+
+    
 </div>
