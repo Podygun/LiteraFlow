@@ -62,7 +62,7 @@ public static class DBHelper
     /// <param name="sql"></param>
     /// <param name="model"></param>
     /// <returns></returns>
-    public static async Task<IList<T>> QueryCollectionAsync<T>(string sql, object model)
+    public static async Task<List<T>> QueryCollectionAsync<T>(string sql, object model)
     {
         using (var con = new NpgsqlConnection(ConString))
         {
