@@ -2,10 +2,11 @@
 {
     public interface IChaptersDAL
     {
-        public Task<int?> AddAsync(int bookId, ChapterModel chapter);
-
-        public Task AddRangeAsync(int bookId, IEnumerable<ChapterModel> chapters);
-        Task<ChapterModel> GetAsync(int chapterId);
-        public Task<int> UpdateAsync(ChapterModel chapter);
+        Task<int?> AddAsync(ChapterModel chapter);
+        Task AddRangeAsync(int bookId, IEnumerable<ChapterModel> chapters);
+        Task<string> GetTextAsync(int chapterId);
+        Task<int?> UpdateAsync(ChapterModel chapter);
+        Task<List<ChapterModel>>GetAsync(int bookId);
+        Task<bool> IsExists(int? chapterId);
     }
 }
