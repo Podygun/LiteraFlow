@@ -7,7 +7,7 @@
     --dark-color: #181818;
     --main-color-darker: #CDC287;
 
-    --border-radius-def: 0.75rem;
+    --border-radius-def: 0.5rem;
 }
 
 html {
@@ -33,7 +33,30 @@ body {
     margin-bottom: 60px;
 }
 
+/*#region Custom Scrollbar */
 
+/*Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--dark-color) var(--main-color);
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--main-color);/* цвет дорожки */
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--main-color); 
+    border-radius: 5px; 
+    border: 2px solid var(--dark-color); 
+}
+
+
+/*#endregion */
 
 /*#region Forms*/
 
@@ -45,7 +68,7 @@ body {
     padding: 0.375rem 0.75rem;
     width: 100%;
     border: none;
-    border-radius: 10px;
+    border-radius: var(--border-radius-def);
     background-color: transparent;
     outline: 2px solid var(--dark-color);
     transition: 0.3s;
@@ -76,6 +99,21 @@ body {
     width:400px;
 }
 
+.form__p{
+    font-size: 1rem;
+    font-weight: 600;
+    height: 10rem;
+    padding: 0.375rem 0.75rem;
+    width: 100%;
+    border: none;
+    border-radius: var(--border-radius-def);
+    background-color: transparent;
+    outline: 2px solid var(--dark-color);
+    transition: 0.3s;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    scroll-behavior: smooth;
+}
 /*#endregion */
 
 
@@ -88,7 +126,7 @@ body {
     color: var(--main-color);
     border: solid 2px var(--dark-color);
     outline: none;
-    border-radius: 0.75rem;
+    border-radius: var(--border-radius-def);
     padding: 0.6rem 2rem;
     cursor: pointer;
     transition: 0.2s;
@@ -130,7 +168,7 @@ body {
     color: var(--dark-color);
     border: solid 2px var(--dark-color);
     outline: none;
-    border-radius: 0.75rem;
+    border-radius: var(--border-radius-def);
     padding: 0.6rem 2rem;
     cursor: pointer;
     transition: 0.2s;
@@ -295,8 +333,8 @@ body {
  }
 
 
-
  .book__card_image{
      margin:0px;
      padding:0px;
  }
+
