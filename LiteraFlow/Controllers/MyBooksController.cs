@@ -28,43 +28,94 @@ public class MyBooksController : Controller
         return View(BookMapper.ModelToViewModel(books).ToList());
     }
 
-    [HttpGet]
-    [Route("/mybooks/{bookId}")]
-    public async Task<IActionResult> LoadBook([FromRoute] int bookId)
+    public async Task<IActionResult> Details(int id)
     {
-        //TODO Проверка на то, что пользователь является автором книги
-
+        #region Validation
         var books = await GetBooks();
 
         if (books == null)
             Redirect("/profile");
 
-        var book = await booksBL.Get(bookId);
+        var book = await booksBL.Get(id);
 
         if (book?.BookId == null)
             return Redirect("/mybooks");
 
 
         //если пытается зайти на чужую книгу по id
-        if (!Enumerable.Any(books, book => book.BookId == bookId))
+        if (!Enumerable.Any(books, book => book.BookId == id))
             return Redirect("/mybooks");
+        #endregion
 
-        return View("Book", BookMapper.ModelToViewModel(book));
+        // Load chapters
+        var chapters = await booksBL.GetChaptersAsync(id);
+
+        // Add template chapter
+        if (chapters.Count == 0) chapters.Add(new()
+        {
+            Title = "Глава 1",
+            SerialNumber = 1,
+            BookId = (int)book.BookId,
+        });
+
+        
+        var viewModel = new BookAndChaptersViewModel 
+        { 
+            Book = BookMapper.ModelToViewModel(book), 
+            Chapters = ChapterMapper.ModelToViewModel(chapters)
+        };
+
+
+        return View(viewModel);
     }
 
     [HttpPost]
-    [Route("/mybooks/savesettings")]
+    public async Task<IActionResult> GetChapterText(int? chapterId)
+    {
+        //TODO Maybe need to check that this book has this chapter
+        // But i dont now book id here
+        if (chapterId == null) 
+            return Json(String.Empty);
+
+        string txt = await booksBL.GetChapterText((int)chapterId);
+        return Json(txt);
+    }
+
+    [HttpPost]
+    [Route("/mybooks/book/savesettings")]
     [AutoValidateAntiforgeryToken]
     public async Task<IActionResult> SaveSettings()
     {
         return Ok();
     }
 
+
     [HttpPost]
-    [Route("/mybooks/savechapters")]
-    [AutoValidateAntiforgeryToken]
-    public async Task<IActionResult> SaveChapters()
+
+    public async Task<IActionResult> SaveChapter([FromBody] ChapterViewModel vm)
     {
+        if(!ModelState.IsValid) 
+            return View();
+
+
+        ChapterModel model = new()
+        {
+            BookId = (int)vm.BookId,
+            Title = vm.Title,
+            Text = vm.Text,
+            ChapterId = vm.ChapterId,
+            AmountLetters = vm.Text.Length,
+            SerialNumber = 1,
+            UpdatedOn = DateTime.Now
+        };
+
+        int? id = await booksBL.UpdateOrCreateChapterAsync(model);
+
+        if(id is null)
+            return Problem();
+
+        //TODO Update book's amount letter
+
         return Ok();
     }
 
@@ -78,5 +129,7 @@ public class MyBooksController : Controller
         var books = await booksBL.GetUserBooks((int)profile.ProfileId!);
         return books.ToList();
     }
+
+
 
 }
