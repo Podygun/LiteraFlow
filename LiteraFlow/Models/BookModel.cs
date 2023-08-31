@@ -18,4 +18,5 @@ public class BookModel
     public int AmountUnlockedChapters { get; set; }
     public string? BookImage { get; set; }
     public double? Price { get; set; }
+    public int? AmountLetters { get; set; }
 }
