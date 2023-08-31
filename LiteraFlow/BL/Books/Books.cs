@@ -19,14 +19,31 @@ public class Books : IBooks
         return bookId;
     }
 
-    public async Task AddChapterAsync(int bookId, ChapterModel chapter)
+    public async Task<List<ChapterModel>> GetChaptersAsync(int bookId)
     {
-        await chaptersDAL.AddAsync(bookId, chapter);
+        var chapters = await chaptersDAL.GetAsync(bookId);
+        return chapters;
+    }
+    
+    [Obsolete("Use only in tests")]
+    public async Task<int?> AddChapterAsync(ChapterModel chapter)
+    {
+        return await chaptersDAL.AddAsync(chapter);
     }
 
-    public async Task UpdateChapterAsync(ChapterModel chapter)
+    [Obsolete("Use only in tests")]
+    public async Task<int?> UpdateChapterAsync(ChapterModel chapter)
     {
-        await chaptersDAL.UpdateAsync(chapter);
+        return await chaptersDAL.UpdateAsync(chapter);
+    }
+
+    public async Task<int?> UpdateOrCreateChapterAsync(ChapterModel chapter)
+    {
+        bool isExists = await chaptersDAL.IsExists(chapter.ChapterId);
+        if (isExists)
+            return await UpdateChapterAsync(chapter);
+        return await AddChapterAsync(chapter);
+        
     }
 
     public async Task DeleteChapterAsync(ChapterModel chapter)
@@ -44,9 +61,15 @@ public class Books : IBooks
         return await booksDAL.GetUserBooks(profileId);
     }
 
+    //TODO What is this method?
     public async Task<BookModel> Get(int userId)
     {
         return await booksDAL.GetAsync(userId);
+    }
+
+    public async Task<string> GetChapterText(int chapterId)
+    {
+        return await chaptersDAL.GetTextAsync(chapterId);
     }
 
 
