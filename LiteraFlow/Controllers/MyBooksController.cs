@@ -69,6 +69,8 @@ public class MyBooksController : Controller
         return View(viewModel);
     }
 
+    //TODO Make Cache Storing of text?
+
     [HttpPost]
     public async Task<IActionResult> GetChapterText(int? chapterId)
     {
@@ -80,6 +82,7 @@ public class MyBooksController : Controller
         string txt = await booksBL.GetChapterText((int)chapterId);
         return Json(txt);
     }
+
 
     [HttpPost]
     [Route("/mybooks/book/savesettings")]
