@@ -3,9 +3,21 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "provider": "cdnjs",
       "library": "font-awesome@6.4.2",
       "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "D:\\C#\\ASP net core\\LiteraFlow\\LiteraFlow.UI\\bin\\Debug\\net7.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "destination": "wwwroot/js/blazor.webassembly/",
+      "files": [
+        "blazor.webassembly.js"
+      ]
+    },
+    {
+      "provider": "filesystem",
+      "library": "D:\\C#\\ASP net core\\LiteraFlow\\LiteraFlow.UI\\bin\\Debug\\net7.0\\wwwroot\\_framework",
+      "destination": "wwwroot/blazor/_framework/"
     }
   ]
 }
