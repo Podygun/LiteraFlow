@@ -72,8 +72,8 @@ public class MyBooksController : Controller
     [HttpPost]
     public async Task<IActionResult> GetChapterText(int? chapterId)
     {
-        //TODO Maybe need to check that this book has this chapter
-        // But i dont now book id here
+        //TODO Сheck that book have this chapter
+
         if (chapterId == null) 
             return Json(String.Empty);
 
@@ -91,9 +91,9 @@ public class MyBooksController : Controller
 
 
     [HttpPost]
-
     public async Task<IActionResult> SaveChapter([FromBody] ChapterViewModel vm)
     {
+        //TODO Check that user have this book and chapterid
         if(!ModelState.IsValid) 
             return View();
 
