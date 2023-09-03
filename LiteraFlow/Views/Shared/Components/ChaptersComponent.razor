@@ -1,0 +1,86 @@
+﻿@inject HttpClient Http
+@using System.ComponentModel.DataAnnotations;
+@using Microsoft.AspNetCore.Components;
+
+<h1>Code from Blazor</h1>
+
+<div class="d-flex flex-wrap justify-content-center">
+    @if(Chapters == null)
+    {
+        <label>
+            Загрузка глав
+        </label>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col">
+                <select @bind="Chapters" >
+                    @for (int i = 0; i < Chapters.Count; i++)
+                    {
+                        <option value="@Chapters[i].SerialNumber">@Chapters[i].Title</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+            </div>
+        </div>
+    }
+    
+    
+</div>
+
+@code {
+    //TODO Btn "+" for add a new chapter | onlick = CreateChapter
+    //TODO If select another chapter Pop-up menu with Q: Сохранить?
+    //TODO Update SelectedChapter on selecting in Drop-Down menu 
+    //TODO Set NewChapter 
+
+    // Model
+    public class Chapter
+    {
+        [Required]
+        [MinLength(1)]
+        [MaxLength(64)]
+        public string? Title { get; set; } = null!;
+
+        [Required]
+        [MinLength(1)]
+        [MaxLength(250_000)]
+        public string? Text { get; set; } = null!;
+
+        public int SerialNumber { get; set; }
+
+    }
+
+
+    public List<Chapter>? Chapters = null;
+    private Chapter NewChapter = new();
+    private Chapter SelectedChapter = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await Http.GetFromJsonAsync<Chapter[]>("mybooks/chapters/get");
+        if (result == null) return;
+        Chapters = new(result.ToList());
+        SelectedChapter = Chapters.Last();
+    }
+
+    private async Task SaveChapter()
+    {
+        await Http.PutAsJsonAsync<Chapter>("mybooks/chapters/put", NewChapter);
+    }
+
+    private async Task AddChapter()
+    {
+        await Http.PostAsJsonAsync<Chapter>("mybooks/chapters/post", NewChapter);
+    }
+
+    public void CreateChapter()
+    {
+        
+    }
+}
