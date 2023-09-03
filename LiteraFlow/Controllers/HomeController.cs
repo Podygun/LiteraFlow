@@ -17,6 +17,8 @@ namespace LiteraFlow.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await currentUser.IsAuthorized());
+            
+            //return Redirect("newbook/settings/1");
         }
 
         public IActionResult Privacy()

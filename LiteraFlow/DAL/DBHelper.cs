@@ -37,7 +37,7 @@ public static class DBHelper
             return result;
         }
     }
-
+    
     /// <summary>
     /// Select single row
     /// </summary>
@@ -71,6 +71,7 @@ public static class DBHelper
             return result.ToList();
         }
     }
+
     /// <summary>
     /// Select collection of rows
     /// </summary>
