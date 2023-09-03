@@ -10,7 +10,11 @@ public class BooksDAL : IBooksDAL
             (title, typeid, genreid, authornote, description, isadultcontent, createdon, whocanwatch, whocandownload, whocancomment, amountunlockedchapters, bookimage, price, statusid)
             values 
             (@title, @typeid, @genreid, @authornote, @description, @isadultcontent, NOW(), @whocanwatch, @whocandownload, @whocancomment, @amountunlockedchapters, @bookimage, @price, @statusid) returning bookid",
-            model, @"insert into BooksAuthors(bookid, profileid) values (@bookid, @profileid)", profileId);
+            model, 
+
+            @"insert into BooksAuthors(bookid, profileid) values (@bookid, @profileid)", 
+            profileId);
+
         return bookId;
    
     }

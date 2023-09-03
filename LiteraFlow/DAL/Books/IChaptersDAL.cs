@@ -7,6 +7,5 @@
         Task<string> GetTextAsync(int chapterId);
         Task<int?> UpdateAsync(ChapterModel chapter);
         Task<List<ChapterModel>>GetAsync(int bookId);
-        Task<bool> IsExists(int? chapterId);
     }
 }

@@ -39,11 +39,9 @@ public class Books : IBooks
 
     public async Task<int?> UpdateOrCreateChapterAsync(ChapterModel chapter)
     {
-        bool isExists = await chaptersDAL.IsExists(chapter.ChapterId);
-        if (isExists)
-            return await UpdateChapterAsync(chapter);
-        return await AddChapterAsync(chapter);
-        
+        if (chapter.ChapterId == null)
+            return await AddChapterAsync(chapter);
+        return await UpdateChapterAsync(chapter);  
     }
 
     public async Task DeleteChapterAsync(ChapterModel chapter)
@@ -61,7 +59,7 @@ public class Books : IBooks
         return await booksDAL.GetUserBooks(profileId);
     }
 
-    //TODO What is this method?
+    //TODO WTF method?
     public async Task<BookModel> Get(int userId)
     {
         return await booksDAL.GetAsync(userId);

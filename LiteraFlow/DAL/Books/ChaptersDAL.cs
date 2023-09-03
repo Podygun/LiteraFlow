@@ -42,8 +42,8 @@ public class ChaptersDAL : IChaptersDAL
         var result = await DBHelper.QueryScalarAsync<string>(
             @"select text
               from Chapters 
-              where chapterid = @ChapterId",
-            chapterId);
+              where chapterid = @id",
+            new { id = chapterId });
         return result;
     }
 
@@ -58,20 +58,10 @@ public class ChaptersDAL : IChaptersDAL
         var result = await DBHelper.QueryCollectionAsync<ChapterModel>(
             @"select chapterid, title, serialnumber 
               from Chapters 
-              where bookid = @bookId 
+              where bookid = @id 
               order by serialnumber",
-            bookId) ?? new List<ChapterModel>();
+            new { id = bookId }) ?? new List<ChapterModel>();
         return result;
     }
 
-    //TODO Test
-    public async Task<bool> IsExists(int? chapterId)
-    {
-        int rowsAmount = await DBHelper.QueryScalarAsync<int>(
-            @"select count (chapterid) 
-              from Chapters 
-              where chapterid = @ChapterId", 
-            new { id = chapterId });
-        return rowsAmount > 0;
-    }
 }
