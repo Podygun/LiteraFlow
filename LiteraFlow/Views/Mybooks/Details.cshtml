@@ -60,14 +60,14 @@
             }
             
         </select>
-        <button>Новая глава</button>
+        <button id="createChapterBtn">Новая глава</button>
 
         <form id="ChapterForm">
             @Html.AntiForgeryToken()
             <div>
                 <label>
                     <div>Заголовок</div>
-                    <input id="chapterTitle" value="@Model.Chapters[0].Title" />
+                    <input id="chapterTitle" value="@Model.Chapters[^1].Title" />
                     
                 </label>
                 
@@ -75,7 +75,7 @@
             <div class="row w-100 bg-secondary " style="height:200px;">
                 <p contenteditable="true" id="chapterText"></p>
             </div>
-            <input type="hidden" name="ChapterId" id="chapterId" value="@Model.Book.BookId" />
+            <input type="hidden" name="ChapterId" id="chapterId" />
 
             <button type="button" id="saveChapterBtn">Сохранить</button>
         </form>
@@ -89,38 +89,41 @@
     <script defer>     
         $(document).ready(function () {
 
-
             const chapterSelector = document.getElementById("chapterSelector");
             const chapterText = document.getElementById("chapterText");
             const chapterTitle = document.getElementById("chapterTitle");
+            const chapterId = document.getElementById("chapterId");
+            
 
-
-            chapterSelector.options[0].Selected = 'selected';
-
-            function chapterSelected() {
-
+            function LoadChapterText() {
                 let SelectedChapterId = chapterSelector.options[chapterSelector.selectedIndex].value;
-                chapterTitle.value = chapterSelector.options[chapterSelector.selectedIndex].title;
-
+                chapterId.value = SelectedChapterId;
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("GetChapterText")",
                     dataType: "json",
-                    data: { chapterId: SelectedChapterId },
+                    data: { ChapterId: SelectedChapterId },
                     success: function (result) {
-                        chapterText.textContent = result.text;
+                        chapterText.textContent = result;
                     },
                     error: function (req, status, error) {
                         chapterText.textContent = status;
                     }
                 });
-            }
+            };
+
+            function ChapterSelected(){
+
+                LoadChapterText();
+                chapterTitle.value = chapterSelector.options[chapterSelector.selectedIndex].textContent;
+            };
 
             $("#saveChapterBtn").click(function () {
                 let chapter = {
                     BookId: $("#bookId").val(),
                     Title: $("#chapterTitle").val(),
-                    Text: $("#chapterText").text()
+                    Text: $("#chapterText").text(),
+                    ChapterId: $("#chapterId").val() || null,                    
                 };
 
                 $.ajax({
@@ -139,8 +142,25 @@
                 });
             });
 
-            chapterSelector.addEventListener("change", chapterSelected);
+            chapterSelector.addEventListener("change", ChapterSelected);
 
+            chapterSelector.options[chapterSelector.options.length - 1].selected = true;
+            ChapterSelected();
+
+            // Logic of creating new chapter button
+            const createChapterBtn = document.getElementById("createChapterBtn");
+
+            createChapterBtn.addEventListener('click', function () {
+                let newOption = document.createElement("option");
+                newOption.textContent = "Новая глава";
+                newOption.value = "Новая глава";
+                newOption.selected = true;
+                chapterSelector.appendChild(newOption);
+
+                chapterText.textContent = "Текст";
+                chapterTitle.value = "Новая глава";
+                chapterId.value = null;
+            });
 
         });
     </script>
