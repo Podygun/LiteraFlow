@@ -7,5 +7,6 @@
         Task<int?> GetUserIdByToken();
         Task<int?> GetCurrentUserId();
         Task<ProfileModel> GetProfile();
+        Task<int> GetProfileId();
     }
 }

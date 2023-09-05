@@ -1,7 +1,7 @@
 ﻿using LiteraFlow.Web.BL.DBSession;
 using LiteraFlow.Web.BL.Helpers;
+using LiteraFlow.Web.BL.Profiles;
 using LiteraFlow.Web.BL.WebCookie;
-using LiteraFlow.Web.DAL.Profiles;
 using LiteraFlow.Web.DAL.UserToken;
 using LiteraFlow.Web.Middleware;
 
@@ -14,18 +14,18 @@ public class CurrentUser : ICurrentUser
     private readonly IDBSession dBSession;
     private readonly IWebCookie webCookie;
     private readonly IUserTokenDAL userTokenDAL;
-    private readonly IProfileDAL profileDAL;
+    private readonly IProfile profileBL;
 
     public CurrentUser(
         IDBSession dBSession,
         IWebCookie webCookie,
         IUserTokenDAL userTokenDAL,
-        IProfileDAL profileDAL)
+        IProfile profile)
     {
         this.dBSession = dBSession;
         this.webCookie = webCookie;
         this.userTokenDAL = userTokenDAL;
-        this.profileDAL = profileDAL;
+        this.profileBL = profile;
     }
 
     /// <summary>
@@ -59,17 +59,17 @@ public class CurrentUser : ICurrentUser
 
         if (userIdByToken != null && userIdBySession == null)
         {
-            var profile = await profileDAL.GetAsync((int)userIdByToken);
+            var profile = await profileBL.GetAsync((int)userIdByToken);
             return profile.ProfileId != null;
         }
         else if (userIdByToken == null && userIdBySession != null)
         {
-            var profile = await profileDAL.GetAsync((int)userIdBySession);
+            var profile = await profileBL.GetAsync((int)userIdBySession);
             return profile.ProfileId != null;
         }
         else if ((userIdByToken != null || userIdBySession != null) && (userIdByToken == userIdBySession))
         {
-            var profile = await profileDAL.GetAsync((int)userIdByToken);
+            var profile = await profileBL.GetAsync((int)userIdByToken);
             return profile.ProfileId != null;
         }
 
@@ -101,6 +101,14 @@ public class CurrentUser : ICurrentUser
         int? userId = await GetCurrentUserId();
         if (userId == null)
             throw new Exception("Пользователь не найден");
-        return await profileDAL.GetAsync((int)userId);
+        return await profileBL.GetAsync((int)userId);
+    }
+
+    public async Task<int> GetProfileId()
+    {
+        var profile = await GetProfile();
+        if(profile == null || profile.ProfileId == null)
+            throw new Exception("Нет профиля");
+        return (int)profile.ProfileId;
     }
 }
