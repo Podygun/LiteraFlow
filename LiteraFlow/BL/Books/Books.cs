@@ -1,4 +1,6 @@
 ﻿using LiteraFlow.Web.DAL.Books;
+using LiteraFlow.Web.Services;
+
 
 namespace LiteraFlow.Web.BL.Books;
 
@@ -6,11 +8,13 @@ public class Books : IBooks
 {
     private readonly IBooksDAL booksDAL;
     private readonly IChaptersDAL chaptersDAL;
+    private readonly ICacheService cache;
 
-    public Books(IBooksDAL booksDAL, IChaptersDAL chaptersDAL)
+    public Books(IBooksDAL booksDAL, IChaptersDAL chaptersDAL, ICacheService cache)
     {
         this.booksDAL = booksDAL;
         this.chaptersDAL = chaptersDAL;
+        this.cache = cache;
     }
 
     public async Task<int?> CreateAsync(BookModel book, int profileId)
@@ -54,15 +58,21 @@ public class Books : IBooks
         await booksDAL.DeleteAsync(bookId);
     }
 
-    public async Task<IList<BookModel>> GetUserBooks(int profileId)
+    public async Task<List<BookModel>> GetUserBooks(int profileId)
     {
-        return await booksDAL.GetUserBooks(profileId);
+        var books = cache.GetOrNull<List<BookModel>>(CacheConstants.USER_BOOKS);
+        if(books == null)
+        {
+            books = await booksDAL.GetUserBooks(profileId);
+            cache.Set(CacheConstants.USER_BOOKS, books, 3600);
+        }           
+        return books;
     }
 
     //TODO WTF method?
-    public async Task<BookModel> Get(int userId)
+    public async Task<BookModel> Get(int bookId)
     {
-        return await booksDAL.GetAsync(userId);
+        return await booksDAL.GetAsync(bookId);
     }
 
     public async Task<string> GetChapterText(int chapterId)

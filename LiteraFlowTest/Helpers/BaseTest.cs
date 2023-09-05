@@ -9,7 +9,9 @@ using LiteraFlow.Web.DAL.Books;
 using LiteraFlow.Web.DAL.BooksRelaltions;
 using LiteraFlow.Web.DAL.DBSession;
 using LiteraFlow.Web.DAL.Profiles;
-using LiteraFlow.Web.DAL.UserToken; 
+using LiteraFlow.Web.DAL.UserToken;
+using LiteraFlow.Web.Services;
+using Microsoft.Extensions.Caching.Memory;
 #endregion
 
 namespace LiteraFlowTest.Helpers;
@@ -18,6 +20,7 @@ namespace LiteraFlowTest.Helpers;
 public class BaseTest
 {
     //DAL
+    
     protected readonly IDBSessionDAL dBSessionDAL = new DBSessionDAL();
     protected readonly IUserTokenDAL userTokenDAL = new UserTokenDAL();
     protected readonly IAuthDAL authDAL = new AuthDAL();
@@ -25,6 +28,7 @@ public class BaseTest
     protected readonly IBooksDAL booksDAL = new BooksDAL();
     protected readonly IProfileDAL profileDAL = new ProfileDAL();
     protected readonly IBooksRelationDAL relationDAL = new BooksRelationDAL();
+    protected readonly ICacheService cache = new CacheService();
 
     protected IHttpContextAccessor httpContextAccessor = new HttpContextAccessor();
 
@@ -34,6 +38,7 @@ public class BaseTest
     protected readonly IWebCookie webCookie;
     protected readonly IBooks books;
     protected readonly IProfile profile;
+    
 
 
     public BaseTest()

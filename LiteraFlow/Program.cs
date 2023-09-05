@@ -10,6 +10,7 @@ using LiteraFlow.Web.DAL.BooksRelaltions;
 using LiteraFlow.Web.DAL.DBSession;
 using LiteraFlow.Web.DAL.Profiles;
 using LiteraFlow.Web.DAL.UserToken;
+using LiteraFlow.Web.Services;
 
 
 
@@ -22,6 +23,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddServerSideBlazor();
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddMemoryCache();
 //builder.Services.AddSession();
 
 // Custom Services
@@ -36,12 +38,14 @@ builder.Services.AddSingleton<IUserTokenDAL, UserTokenDAL>();
 builder.Services.AddSingleton<IProfileDAL, ProfileDAL>();
 builder.Services.AddSingleton<IProfile, Profile>();
 builder.Services.AddSingleton<IBooksRelationDAL, BooksRelationDAL>();
+builder.Services.AddSingleton<ICacheService, CacheService>();
 
 
 builder.Services.AddScoped<IAuth, Auth>();
 builder.Services.AddScoped<IDBSession, DBSession>();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 builder.Services.AddScoped<IWebCookie, WebCookie>();
+
 
 
 var app = builder.Build();
@@ -58,6 +62,8 @@ if (app.Environment.IsDevelopment())
     
 }
 app.UseWebAssemblyDebugging();
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles(new StaticFileOptions
