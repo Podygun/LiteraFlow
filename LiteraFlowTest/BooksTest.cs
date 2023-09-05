@@ -51,9 +51,10 @@ public class BooksTest : BaseTest
         ChapterModel chapter = new()
         {
             Title = "Test title",
+            BookId = (int)bookId,
             Text = "Lorem ispum. Lorem ispum! Lorem ispum? Lorem ispum, yes",
         };
-        int? chapterId = await chaptersDAL.AddAsync((int)bookId, chapter);
+        int? chapterId = await chaptersDAL.AddAsync(chapter);
 
         Assert.That(chapterId, Is.Not.Null);
 
@@ -84,21 +85,23 @@ public class BooksTest : BaseTest
         {
             Title = "Test title",
             Text = "Lorem ispum. Lorem ispum! Lorem ispum? Lorem ispum, yes",
+            BookId = (int)bookId
         };
-        int? chapterId = await chaptersDAL.AddAsync((int)bookId, chapter);
+        int? chapterId = await chaptersDAL.AddAsync(chapter);
 
         //обновление главы
         chapter = new()
         {
             ChapterId = chapterId,
             Title = "Test title 2",
-            Text = "Not Lorem",
+            Text = "Not Lorem"
+            
         };
 
         var chapterId_2 = await chaptersDAL.UpdateAsync(chapter);
         Assert.That(chapterId_2, Is.EqualTo(chapterId));
 
-        string chapterText = await chaptersDAL.GetTextAsync(chapterId_2);
+        string chapterText = await chaptersDAL.GetTextAsync((int)chapterId_2);
 
         
         Assert.That(chapterText, Is.EqualTo("Not Lorem"));
