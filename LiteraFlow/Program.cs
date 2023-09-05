@@ -11,6 +11,7 @@ using LiteraFlow.Web.DAL.DBSession;
 using LiteraFlow.Web.DAL.Profiles;
 using LiteraFlow.Web.DAL.UserToken;
 using LiteraFlow.Web.Services;
+using Microsoft.Extensions.Caching.Memory;
 
 
 
@@ -28,6 +29,8 @@ builder.Services.AddMemoryCache();
 
 // Custom Services
 
+//builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
+builder.Services.AddSingleton<ICacheService, CacheService>();
 builder.Services.AddSingleton<IAuthDAL, AuthDAL>();
 builder.Services.AddSingleton<IDBSessionDAL, DBSessionDAL>();
 builder.Services.AddSingleton<IUserTokenDAL, UserTokenDAL>();
@@ -38,7 +41,8 @@ builder.Services.AddSingleton<IUserTokenDAL, UserTokenDAL>();
 builder.Services.AddSingleton<IProfileDAL, ProfileDAL>();
 builder.Services.AddSingleton<IProfile, Profile>();
 builder.Services.AddSingleton<IBooksRelationDAL, BooksRelationDAL>();
-builder.Services.AddSingleton<ICacheService, CacheService>();
+
+
 
 
 builder.Services.AddScoped<IAuth, Auth>();
