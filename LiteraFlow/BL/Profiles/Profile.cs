@@ -7,9 +7,9 @@ namespace LiteraFlow.Web.BL.Profiles;
 public class Profile : IProfile
 {
     private readonly IProfileDAL profileDAL;
-    private readonly CacheService cache;
+    private readonly ICacheService cache;
 
-    public Profile(IProfileDAL profileDAL, CacheService cache)
+    public Profile(IProfileDAL profileDAL, ICacheService cache)
     {
         this.profileDAL = profileDAL;
         this.cache = cache;
