@@ -19,7 +19,7 @@ public class BooksDAL : IBooksDAL
    
     }
 
-    public async Task<IList<BookModel>> GetUserBooks(int profileId)
+    public async Task<List<BookModel>> GetUserBooks(int profileId)
     {
         return await DBHelper.QueryCollectionAsync<BookModel>(
             @"select * from Books as b
@@ -34,12 +34,12 @@ public class BooksDAL : IBooksDAL
             new { bookid = id});
     
 
-    public async Task<BookModel> GetAsync(int id)
+    public async Task<BookModel> GetAsync(int bookId)
     {
         return await DBHelper.QueryScalarAsync<BookModel>(
             @"select * from Books
               where BookId = @id",
-            new { id = id }) ?? new BookModel();
+            new { id = bookId }) ?? new BookModel();
     }
 
     public Task<IEnumerable<BookModel>> SearchAsync(int genreId = 0, int bookType = 0)
