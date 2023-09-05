@@ -1,10 +1,14 @@
 ﻿using LiteraFlow.Web.BL.Books;
 using LiteraFlow.Web.Middleware;
+using LiteraFlow.Web.Services;
+using System.Net;
+using static System.Reflection.Metadata.BlobBuilder;
 
 
 namespace LiteraFlow.Web.Controllers;
 
 [UserAuthorized]
+[ResponseCache(Duration = 3600, Location = ResponseCacheLocation.None, NoStore = true)]
 public class MyBooksController : Controller
 {
     private readonly IBooks booksBL;
@@ -28,24 +32,12 @@ public class MyBooksController : Controller
         return View(BookMapper.ModelToViewModel(books).ToList());
     }
 
-    public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Details(int id, [FromServices] ICacheService cache)
     {
-        #region Validation
-        var books = await GetBooks();
-
-        if (books == null)
-            Redirect("/profile");
-
+        if (!await ValidateBook(id))
+            return BadRequest("Ошибка загрузки");
+        
         var book = await booksBL.Get(id);
-
-        if (book?.BookId == null)
-            return Redirect("/mybooks");
-
-
-        //если пытается зайти на чужую книгу по id
-        if (!Enumerable.Any(books, book => book.BookId == id))
-            return Redirect("/mybooks");
-        #endregion
 
         // Load chapters
         var chapters = await booksBL.GetChaptersAsync(id);
@@ -55,8 +47,10 @@ public class MyBooksController : Controller
         {
             Title = "Глава 1",
             SerialNumber = 1,
-            BookId = (int)book.BookId,
+            BookId = id,
         });
+
+        cache.Set(CacheConstants.BOOK_CHAPTERS, chapters, 3600);
 
         
         var viewModel = new BookAndChaptersViewModel 
@@ -69,18 +63,35 @@ public class MyBooksController : Controller
         return View(viewModel);
     }
 
-    //TODO Make Cache Storing of text?
+
+    
 
     [HttpPost]
-    public async Task<IActionResult> GetChapterText(int? chapterId)
+    public async Task<IActionResult> GetChapterText(int? chapterId, int bookId, [FromServices] ICacheService cache)
     {
-        //TODO Сheck that book have this chapter
+        if (!await ValidateBook(bookId))
+            return BadRequest("Ошибка загрузки");
 
-        if (chapterId == null) 
+        // null в случае только что созданной главы книги
+        if (chapterId == null)
             return Json(String.Empty);
+
+
+        List<ChapterModel>? chapters = cache.GetOrNull<List<ChapterModel>?>(CacheConstants.BOOK_CHAPTERS);
+        if(chapters == null)
+        {
+            var chaptersFromDb = await booksBL.GetChaptersAsync(bookId);
+            cache.Remove(CacheConstants.BOOK_CHAPTERS);
+            cache.Set(CacheConstants.BOOK_CHAPTERS, chaptersFromDb, 3600);
+        }
+
+        // Если глава из запроса пользователя не имеется в книге 
+        if (!Enumerable.Any(chapters, c => c.ChapterId == chapterId))
+            return BadRequest("Ошибка загрузки");
 
         string txt = await booksBL.GetChapterText((int)chapterId);
         return Json(txt);
+
     }
 
 
@@ -129,8 +140,32 @@ public class MyBooksController : Controller
         if (profile.ProfileId == null)
             return null;
 
-        var books = await booksBL.GetUserBooks((int)profile.ProfileId!);
-        return books.ToList();
+        var books = await booksBL.GetUserBooks((int)profile.ProfileId);
+        return books;
+    }
+
+    /// <summary>
+    /// Сверяет id книги и соответствия профилю пользователя
+    /// </summary>
+    /// <returns>Redirects</returns>
+    private async Task<bool> ValidateBook(int bookId)
+    {
+        var books = await GetBooks();
+
+        if (books == null)
+            return false;
+
+        var book = await booksBL.Get(bookId);
+
+        if (book?.BookId == null)
+            return false;
+
+
+        //если пытается зайти на чужую книгу по id
+        if (!Enumerable.Any(books, book => book.BookId == bookId))
+            return false;
+
+        return true;
     }
 
 
