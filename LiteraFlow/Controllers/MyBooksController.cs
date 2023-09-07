@@ -1,8 +1,7 @@
 ﻿using LiteraFlow.Web.BL.Books;
 using LiteraFlow.Web.Middleware;
 using LiteraFlow.Web.Services;
-using System.Net;
-using static System.Reflection.Metadata.BlobBuilder;
+
 
 
 namespace LiteraFlow.Web.Controllers;
@@ -63,9 +62,6 @@ public class MyBooksController : Controller
         return View(viewModel);
     }
 
-
-    
-
     [HttpPost]
     public async Task<IActionResult> GetChapterText(int? chapterId, int bookId, [FromServices] ICacheService cache)
     {
@@ -103,6 +99,32 @@ public class MyBooksController : Controller
         return Ok();
     }
 
+    [HttpPost]
+    [Route("/mybooks/book/saveimg")]
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> SaveBookImage(int bookId)
+    {
+        bool isExistsFile = Request.Form?.Files.Any() ?? false;
+
+        if (isExistsFile) 
+            return BadRequest();
+
+        if(!await ValidateBook(bookId))
+            return BadRequest();
+
+        // Save the Image
+        string? imgPath = await WebFile.SaveAsync(Request.Form.Files[0], WebFile.BOOK_PATH);
+        if(imgPath == null)
+        {
+            return BadRequest();
+        }
+
+        // TODO Updating Book
+        // TODO BL (DAL)
+
+
+        return Redirect($"/mybooks/details/{bookId}");
+    }
 
     [HttpPost]
     public async Task<IActionResult> SaveChapter([FromBody] ChapterViewModel vm)
