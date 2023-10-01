@@ -64,13 +64,6 @@ public class ProfileController : Controller
         return Redirect("/");
     }
 
-    public async Task<string?> GetPathOfProcessedImage(IFormFile? imgData)
-    {
-        if (imgData is null) return null;
-        string filename = WebFile.CreateWebFile(imgData.FileName);
-        await WebFile.UploadAndResizeImage(imgData.OpenReadStream(), filename, 800, 600);
-        return filename;
-    }
 
     [ActionName("exit")]
     public async Task<IActionResult> Exit(
@@ -117,7 +110,7 @@ public class ProfileController : Controller
 
 
         if (Request.Form.Files.Count > 0)
-            profile.ProfileImage = await GetPathOfProcessedImage(Request?.Form?.Files[0]);
+            profile.ProfileImage = await WebFile.SaveAsync(Request.Form.Files[0], WebFile.PROFILE_PATH);
         else
             profile.ProfileImage = null;
 

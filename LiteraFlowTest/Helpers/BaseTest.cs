@@ -46,8 +46,8 @@ public class BaseTest
         webCookie = new TestCookie();
         dBSession = new DBSession(dBSessionDAL, webCookie);
         auth = new Auth(authDAL, dBSession, userTokenDAL, webCookie);
-        books = new Books(booksDAL, chaptersDAL);
-        profile = new Profile(profileDAL);
+        books = new Books(booksDAL, chaptersDAL, cache);
+        profile = new Profile(profileDAL, cache);
     }
 
 }

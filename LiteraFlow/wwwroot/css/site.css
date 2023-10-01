@@ -58,6 +58,7 @@ body {
 
 /*#endregion */
 
+
 /*#region Forms*/
 
 
@@ -356,7 +357,7 @@ body {
 /*#region Custom Selector */
 
 .selector{
-
+    height:2.5rem;
     cursor: pointer;
     width: auto;
     background-color:var(--light-color);
@@ -365,6 +366,8 @@ body {
     transition: border-color 0.3s;
 }
 
-
-
 /*#endregion */
+
+.success_alert{
+
+}

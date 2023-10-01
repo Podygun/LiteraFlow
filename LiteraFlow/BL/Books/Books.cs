@@ -23,6 +23,17 @@ public class Books : IBooks
         return bookId;
     }
 
+    public async Task UpdateAsync(BookModel book)
+    {
+        await booksDAL.UpdateAsync(book);
+    }
+
+    public async Task UpdateImageAsync(string imgPath, int bookId)
+    {
+        await booksDAL.UpdateImageAsync(imgPath, bookId);
+    }
+
+
     public async Task<List<ChapterModel>> GetChaptersAsync(int bookId)
     {
         var chapters = await chaptersDAL.GetAsync(bookId);
@@ -69,7 +80,6 @@ public class Books : IBooks
         return books;
     }
 
-    //TODO WTF method?
     public async Task<BookModel> Get(int bookId)
     {
         return await booksDAL.GetAsync(bookId);
@@ -79,7 +89,6 @@ public class Books : IBooks
     {
         return await chaptersDAL.GetTextAsync(chapterId);
     }
-
 
 }
 

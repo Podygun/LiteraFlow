@@ -4,37 +4,41 @@
   <div class="row">
     <div id="leftCol" class="col-12 col-lg-8 pe-4">
 
-        <div class="row">
-            <div class=" d-flex flex-wrap justify-content-center">
+        <div class="row mb-3">
+            <div class=" d-flex flex-wrap justify-content-start">
                 <select class="selector" id="chapterSelector">
                     @for (int i = 0; i < @Model.Chapters.Count; i++)
                     {
                         <option value="@Model.Chapters[i].ChapterId">@Model.Chapters[i].Title</option>
                     }
-
+                    
                 </select>
-                <button class="btn_light" id="createChapterBtn">Новая глава</button>
+                <span class="col-auto">
+                    <i class="fa fa-plus text-black h-auto" style="cursor:pointer;" id="createChapterBtn" aria-hidden="true"></i>
+
+                </span>
+                
             </div>
 
         </div>
 
         <form id="ChapterForm">
             @Html.AntiForgeryToken()
-            <div>
-                <label>
-                    <div>Заголовок</div>
-                    <input id="chapterTitle" value="@Model.Chapters[^1].Title" />
+            
+            <label class="mb-3">
+                <div>Заголовок</div>
+                <input id="chapterTitle" value="@Model.Chapters[^1].Title" />
 
-                </label>
+            </label>
 
-            </div>
             <div class="mb-3">
-
+                <label>Текст</label>
                 <p class="chapter_redactor" contenteditable="true" id="chapterText"></p>
             </div>
 
 
-            <input type="hidden" name="ChapterId" id="chapterId" />
+            <input type="hidden" id="chapterIdStore" readonly />
+            <input type="hidden" id="bookIdStore" name="Book.BookId" value="@Model.Book.BookId" readonly />
 
             <button type="button" id="saveChapterBtn">Сохранить</button>
         </form>
@@ -72,11 +76,20 @@
 
     @* TODO Amount of letters *@
 
+    <div id="success-noti" class="alert alert-success d-none align-items-center w-
+position-absolute align-self-start" role="alert">
+        <i class="fa fa-check-circle text-black me-3" aria-hidden="true"></i>
+        <label>
+            Пример уведомления об успехе с иконкой
+        </label>
+    </div>
+
     <div class="toggle-button" id="toggleButton">
         <i style="cursor:pointer;" id="iconToggler" class="fa fa-angle-double-right text-black" aria-hidden="true"></i>
     </div>
 
-    
+    <button id="showNotification">Показать уведомление</button>
+
     
     
 
@@ -89,21 +102,27 @@
             const chapterSelector = document.getElementById("chapterSelector");
             const chapterText = document.getElementById("chapterText");
             const chapterTitle = document.getElementById("chapterTitle");
-            const chapterId = document.getElementById("chapterId");
+            const chapterId = document.getElementById("chapterIdStore");
             
 
             function LoadChapterText() {
                 let SelectedChapterId = chapterSelector.options[chapterSelector.selectedIndex].value;
+                let ThisBookId = $("#bookIdStore").val();
+
+                console.log(ThisBookId);
+                console.log(SelectedChapterId);
+
                 chapterId.value = SelectedChapterId;
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("GetChapterText")",
                     dataType: "json",
-                    data: { ChapterId: SelectedChapterId },
+                    data: { chapterId: SelectedChapterId, bookId: ThisBookId },
                     success: function (result) {
                         chapterText.textContent = result;
                     },
                     error: function (req, status, error) {
+                        //TODO refactor this
                         chapterText.textContent = status;
                     }
                 });
@@ -115,12 +134,12 @@
                 chapterTitle.value = chapterSelector.options[chapterSelector.selectedIndex].textContent;
             };
 
-            $("#saveChapterBtn").click(function () {
+            $("#saveChapterBtn").click(function (){
                 let chapter = {
                     BookId: $("#bookId").val(),
                     Title: $("#chapterTitle").val(),
                     Text: $("#chapterText").text(),
-                    ChapterId: $("#chapterId").val() || null,                    
+                    ChapterId: $("#chapterIdStore").val() || null,                    
                 };
 
                 $.ajax({
@@ -128,15 +147,12 @@
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(chapter),
-                    success: function (result) {
-                        //TODO popup
-                        console.Log('Updated chapter with id: ' + result);
-                    },
+                    success: showSuccessNotification,
                     error: function (req, status, error) {
                         //TODO popup
                         chapterText.textContent = status;
                     }
-                });
+                }); 
             });
 
 
@@ -173,6 +189,18 @@
                     $("#iconToggler").addClass("fa-angle-double-left");
                 }
             });
+
+            function showSuccessNotification() {
+                $("#success-noti").fadeIn(400); // Плавное появление блока
+                setTimeout(function () {
+                    $("#success-noti").fadeOut(400); // Плавное исчезновение блока через некоторое время (например, 3 секунды)
+                }, 3000);
+            }
+
+            $("#showNotification").click(function () {
+                showSuccessNotification();
+            });
+
 
         });
     </script>

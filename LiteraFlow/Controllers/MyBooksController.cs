@@ -2,9 +2,9 @@
 using LiteraFlow.Web.Middleware;
 using LiteraFlow.Web.Services;
 
-
-
 namespace LiteraFlow.Web.Controllers;
+
+//TODO Delete opened book on Button
 
 [UserAuthorized]
 [ResponseCache(Duration = 3600, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -19,6 +19,7 @@ public class MyBooksController : Controller
         this.currentUser = currentUser;
     }
 
+
     [HttpGet]
     [Route("/mybooks")]
     public async Task<IActionResult> Index()
@@ -30,6 +31,7 @@ public class MyBooksController : Controller
 
         return View(BookMapper.ModelToViewModel(books).ToList());
     }
+
 
     public async Task<IActionResult> Details(int id, [FromServices] ICacheService cache)
     {
@@ -61,6 +63,7 @@ public class MyBooksController : Controller
 
         return View(viewModel);
     }
+
 
     [HttpPost]
     public async Task<IActionResult> GetChapterText(int? chapterId, int bookId, [FromServices] ICacheService cache)
@@ -94,10 +97,16 @@ public class MyBooksController : Controller
     [HttpPost]
     [Route("/mybooks/book/savesettings")]
     [AutoValidateAntiforgeryToken]
-    public async Task<IActionResult> SaveSettings()
+    public async Task<IActionResult> SaveSettings(BookViewModel book)
     {
+        if (!ModelState.IsValid) 
+            return View(book);
+
+        await booksBL.UpdateAsync(BookMapper.ViewModelToModel(book));
+
         return Ok();
     }
+
 
     [HttpPost]
     [Route("/mybooks/book/saveimg")]
@@ -119,12 +128,12 @@ public class MyBooksController : Controller
             return BadRequest();
         }
 
-        // TODO Updating Book
-        // TODO BL (DAL)
+        await booksBL.UpdateImageAsync(imgPath, bookId);
 
 
         return Redirect($"/mybooks/details/{bookId}");
     }
+
 
     [HttpPost]
     public async Task<IActionResult> SaveChapter([FromBody] ChapterViewModel vm)
@@ -155,6 +164,7 @@ public class MyBooksController : Controller
         return Ok();
     }
 
+
     private async Task<List<BookModel>?> GetBooks()
     {
         var profile = await currentUser.GetProfile();
@@ -165,6 +175,7 @@ public class MyBooksController : Controller
         var books = await booksBL.GetUserBooks((int)profile.ProfileId);
         return books;
     }
+
 
     /// <summary>
     /// Сверяет id книги и соответствия профилю пользователя

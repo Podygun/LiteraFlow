@@ -1,4 +1,6 @@
-﻿namespace LiteraFlow.Web.DAL.Books;
+﻿using LiteraFlow.Web.BL.Profiles;
+
+namespace LiteraFlow.Web.DAL.Books;
 
 
 public class BooksDAL : IBooksDAL
@@ -15,8 +17,29 @@ public class BooksDAL : IBooksDAL
             @"insert into BooksAuthors(bookid, profileid) values (@bookid, @profileid)", 
             profileId);
 
-        return bookId;
-   
+        return bookId;  
+    }
+
+    public async Task UpdateAsync(BookModel model)
+    {
+        await DBHelper.ExecuteAsync(
+            @"update Books set 
+                title=@title, 
+                typeid=@typeid, 
+                genreid=@genreid, 
+                authornote=@authornote, 
+                description=@description, 
+                isadultcontent=@isadultcontent, 
+                whocanwatch=@whocanwatch, 
+                whocandownload=@whocandownload, 
+                whocancomment=@whocancomment, 
+                amountunlockedchapters=@amountunlockedchapters, 
+                amountletters=@amountletters, 
+                bookimage=@bookimage, 
+                price=@price, 
+                statusid=@statusid
+                where bookId=@bookid", 
+            model);
     }
 
     public async Task<List<BookModel>> GetUserBooks(int profileId)
@@ -52,9 +75,10 @@ public class BooksDAL : IBooksDAL
         throw new NotImplementedException();
     }
 
-    public Task<int?> UpdateAsync(BookModel model)
+    public async Task UpdateImageAsync(string imgPath, int bookId)
     {
-        throw new NotImplementedException();
+        await DBHelper.ExecuteAsync(
+            "update books set bookimage=@img where bookid=@id", 
+            new { id = bookId, img = imgPath });
     }
-
 }
